@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antigravity POS - Full Features Terminal</title>
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              500: '#0284c7',
+              600: '#0284c7',
+              700: '#0369a1',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #0f172a;
+    }
+
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 999px;
+    }
+
+    .nav-tab.active {
+      background-color: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.35);
+    }
+
+    .product-card {
+      transition: all 0.2s ease-in-out;
+    }
+
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.25);
+    }
+
+    kbd {
+      background-color: #1e293b;
+      border: 1px solid #475569;
+      border-radius: 4px;
+      box-shadow: 0 2px 0 0 #334155;
+      color: #38bdf8;
+      display: inline-block;
+      font-family: monospace;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 6px;
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      #printableReceiptArea,
+      #printableReceiptArea * {
+        visibility: visible;
+      }
+
+      #printableReceiptArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        color: #000000;
+        background: #ffffff;
+      }
+    }
+  </style>
+</head>
+
+<body class="h-screen flex flex-col antialiased select-none">
+
+  <!-- TOP TERMINAL HEADER -->
+  <header class="bg-slate-900 border-b border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between gap-4 flex-shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-sky-600 flex items-center justify-center text-white shadow-lg shadow-sky-600/30">
+        <i class="fa-solid fa-store text-xl"></i>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="font-display text-xl font-bold tracking-tight text-white">Antigravity POS</h1>
+          <span class="bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+            Register #01 Active
+          </span>
+        </div>
+        <p class="text-xs text-slate-400">POS System with Sales Returns, Shortcuts, Customers, Variants & Hold/Resume Carts</p>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs with Hotkeys Hints -->
+    <nav class="flex items-center gap-1.5 bg-slate-950 p-1.5 rounded-xl border border-slate-800 text-xs font-bold flex-wrap">
+      <button onclick="switchTab('terminal')" id="tab-terminal" class="nav-tab active flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-cash-register"></i>
+        <span>POS (F2)</span>
+      </button>
+
+      <button onclick="switchTab('history')" id="tab-history" class="nav-tab flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-clock-rotate-left"></i>
+        <span>History (F3)</span>
+        <span id="navHistoryBadge" class="bg-slate-800 text-sky-400 text-[10px] px-1.5 py-0.5 rounded-full">0</span>
+      </button>
+
+      <button onclick="switchTab('returns')" id="tab-returns" class="nav-tab flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-rotate-left"></i>
+        <span>Returns (F4)</span>
+      </button>
+
+      <button onclick="switchTab('revenue')" id="tab-revenue" class="nav-tab flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-chart-line"></i>
+        <span>Revenue (F5)</span>
+      </button>
+
+      <button onclick="switchTab('cashier')" id="tab-cashier" class="nav-tab flex items-center gap-1.5 px-3 py-2 rounded-lg text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-user-shield"></i>
+        <span>Shift (F6)</span>
+      </button>
+    </nav>
+
+    <!-- Header Right: Keyboard Shortcuts Modal Button & Clock -->
+    <div class="flex items-center gap-3">
+      <!-- Held Sales Badge -->
+      <button onclick="openHeldSalesModal()" class="bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 transition">
+        <i class="fa-solid fa-pause"></i>
+        <span>Held Carts</span>
+        <span id="heldCartsCountBadge" class="bg-amber-500 text-slate-950 text-[10px] px-1.5 py-0.5 rounded-full font-black">0</span>
+      </button>
+
+      <button onclick="openShortcutsModal()" class="bg-sky-500/10 hover:bg-sky-500/20 text-sky-400 border border-sky-500/30 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-2 transition">
+        <i class="fa-solid fa-keyboard"></i>
+        <span>Shortcuts (F12)</span>
+      </button>
+
+      <div class="hidden sm:flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/60 text-xs text-slate-300">
+        <i class="fa-regular fa-clock text-slate-400"></i>
+        <span id="liveClock" class="font-medium">Loading...</span>
+      </div>
+
+      <button onclick="resetDemoData()" title="Reset Application State" class="bg-slate-800 hover:bg-slate-700 text-slate-300 p-2 rounded-lg border border-slate-700 transition">
+        <i class="fa-solid fa-rotate-right text-sm text-sky-400"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- MAIN TAB CONTAINER -->
+  <div class="flex-1 overflow-hidden relative">
+
+    <!-- VIEW 1: POS TERMINAL -->
+    <div id="view-terminal" class="tab-view h-full flex flex-col md:flex-row overflow-hidden">
+      <!-- Main Product Catalog Area -->
+      <main class="flex-1 flex flex-col overflow-hidden p-4 lg:p-6 space-y-4">
+        <!-- Sales Metrics -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 flex-shrink-0">
+          <div class="bg-slate-800/90 border border-slate-700/70 rounded-xl p-3.5 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Today's Net Sales</p>
+              <h3 id="metricSales" class="text-2xl font-extrabold text-white mt-1">$142.50</h3>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center">
+              <i class="fa-solid fa-dollar-sign text-lg"></i>
+            </div>
+          </div>
+
+          <div class="bg-slate-800/90 border border-slate-700/70 rounded-xl p-3.5 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Orders</p>
+              <h3 id="metricOrders" class="text-2xl font-extrabold text-white mt-1">18</h3>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+              <i class="fa-solid fa-bag-shopping text-lg"></i>
+            </div>
+          </div>
+
+          <div class="bg-slate-800/90 border border-slate-700/70 rounded-xl p-3.5 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Items Sold</p>
+              <h3 id="metricItems" class="text-2xl font-extrabold text-white mt-1">42</h3>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
+              <i class="fa-solid fa-box-open text-lg"></i>
+            </div>
+          </div>
+
+          <div class="bg-slate-800/90 border border-slate-700/70 rounded-xl p-3.5 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Refunded</p>
+              <h3 id="metricRefunded" class="text-2xl font-extrabold text-rose-400 mt-1">$0.00</h3>
+            </div>
+            <div class="w-10 h-10 rounded-lg bg-rose-500/10 text-rose-400 flex items-center justify-center">
+              <i class="fa-solid fa-rotate-left text-lg"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- QUICK PRODUCT SEARCH BAR -->
+        <div class="relative flex items-center flex-shrink-0">
+          <i class="fa-solid fa-magnifying-glass absolute left-4 text-sky-400 text-sm pointer-events-none"></i>
+          <input type="text" id="searchInput" oninput="handleSearchInput(this.value)" placeholder="Quick Search Name, SKU, Barcode... (Press F1 or / to focus)" class="w-full bg-slate-800 border border-slate-700/80 rounded-xl pl-11 pr-32 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition shadow-sm" />
+          <div class="absolute right-3 flex items-center gap-2">
+            <button id="clearSearchBtn" onclick="clearSearch()" class="hidden text-slate-400 hover:text-slate-200 bg-slate-700 rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+            <span class="hidden sm:inline-block"><kbd>F1</kbd></span>
+            <span id="productCountBadge" class="bg-sky-500/20 text-sky-400 text-xs font-bold px-2.5 py-1 rounded-lg">10 Products</span>
+          </div>
+        </div>
+
+        <!-- Category Filters -->
+        <div id="categoryContainer" class="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-1 flex-shrink-0"></div>
+
+        <!-- Catalog Grid -->
+        <div class="flex-1 overflow-y-auto custom-scrollbar pr-1">
+          <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5"></div>
+          <div id="noProductsMessage" class="hidden flex-col items-center justify-center py-16 text-center">
+            <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center text-slate-500 mb-3 text-2xl">
+              <i class="fa-solid fa-box-archive"></i>
+            </div>
+            <h4 class="text-lg font-bold text-white">No Products Found</h4>
+          </div>
+        </div>
+      </main>
+
+      <!-- Cart Sidebar -->
+      <aside class="w-full md:w-[380px] lg:w-[420px] bg-slate-900 border-t md:border-t-0 md:border-l border-slate-800 flex flex-col flex-shrink-0">
+        <div class="p-4 bg-slate-900/90 border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center">
+              <i class="fa-solid fa-cart-shopping text-base"></i>
+            </div>
+            <div>
+              <h2 class="font-bold text-white text-base">Active POS Cart</h2>
+              <p id="cartItemsCountText" class="text-xs text-slate-400">0 items in cart</p>
+            </div>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <!-- Hold Sale Button -->
+            <button id="holdCartBtn" onclick="holdCurrentSale()" class="hidden items-center gap-1 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-amber-500/30 transition">
+              <i class="fa-solid fa-pause"></i> Hold
+            </button>
+            <button id="clearCartBtn" onclick="clearCart()" class="hidden items-center gap-1.5 bg-slate-800 hover:bg-red-500/20 hover:border-red-500/40 text-slate-300 hover:text-red-400 text-xs font-semibold px-2.5 py-1.5 rounded-lg border border-slate-700 transition">
+              <i class="fa-regular fa-trash-can text-xs"></i> Clear (Alt+C)
+            </button>
+          </div>
+        </div>
+
+        <!-- Customer Selection & Details Area -->
+        <div class="bg-slate-950/60 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between text-xs">
+          <div class="flex items-center gap-2 text-slate-300">
+            <i class="fa-solid fa-user-tag text-sky-400"></i>
+            <span id="selectedCustomerDisplay" class="font-bold text-slate-200">Walk-in Guest</span>
+            <span id="selectedCustomerTier" class="text-[10px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded">Regular</span>
+          </div>
+          <button onclick="openCustomerModal()" class="text-sky-400 hover:text-sky-300 font-bold flex items-center gap-1">
+            <i class="fa-solid fa-user-pen"></i> Select Customer
+          </button>
+        </div>
+
+        <div id="cartItemsContainer" class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2"></div>
+
+        <div id="emptyCartView" class="flex-1 flex flex-col items-center justify-center p-6 text-center">
+          <div class="w-20 h-20 rounded-full bg-slate-800/80 flex items-center justify-center text-slate-600 mb-4 text-3xl">
+            <i class="fa-solid fa-cart-arrow-down"></i>
+          </div>
+          <h3 class="font-bold text-white text-base">Cart is Empty</h3>
+        </div>
+
+        <div class="p-4 bg-slate-900 border-t border-slate-800 space-y-3">
+          <div>
+            <div class="flex items-center justify-between text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5">
+              <span>Apply Discount</span>
+              <span id="discountBadgeText" class="text-amber-400">0%</span>
+            </div>
+            <div class="grid grid-cols-4 gap-1.5">
+              <button onclick="setDiscount(0)" id="disc-0" class="disc-btn active bg-sky-600 text-white font-bold text-xs py-1.5 rounded-lg transition border border-sky-500">None</button>
+              <button onclick="setDiscount(5)" id="disc-5" class="disc-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs py-1.5 rounded-lg transition border border-slate-700">5%</button>
+              <button onclick="setDiscount(10)" id="disc-10" class="disc-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs py-1.5 rounded-lg transition border border-slate-700">10%</button>
+              <button onclick="setDiscount(15)" id="disc-15" class="disc-btn bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs py-1.5 rounded-lg transition border border-slate-700">15%</button>
+            </div>
+          </div>
+
+          <div class="space-y-1.5 text-xs text-slate-300 pt-1">
+            <div class="flex justify-between">
+              <span class="text-slate-400">Subtotal</span>
+              <span id="summarySubtotal" class="font-semibold text-white">$0.00</span>
+            </div>
+            <div id="discountRow" class="hidden justify-between text-amber-400">
+              <span>Discount (<span id="summaryDiscountRate">0</span>%)</span>
+              <span id="summaryDiscountAmount">-$0.00</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Sales Tax (8%)</span>
+              <span id="summaryTax" class="font-semibold text-white">$0.00</span>
+            </div>
+            <div class="border-t border-slate-800 pt-2 mt-2 flex justify-between items-center">
+              <span class="font-bold text-white text-base">Total Amount</span>
+              <span id="summaryTotal" class="font-extrabold text-2xl text-emerald-400">$0.00</span>
+            </div>
+          </div>
+
+          <button id="checkoutBtn" disabled onclick="openCheckoutModal()" class="w-full bg-emerald-500 hover:bg-emerald-400 disabled:bg-slate-800 disabled:text-slate-600 disabled:cursor-not-allowed text-white font-extrabold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 text-base transition">
+            <i class="fa-solid fa-credit-card"></i>
+            <span>Proceed to Checkout (F8)</span>
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- VIEW 2: SALES HISTORY -->
+    <div id="view-history" class="tab-view hidden h-full overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h2 class="font-display text-2xl font-bold text-white">Sales History & Audit Trail</h2>
+        </div>
+        <div class="flex flex-wrap items-center gap-3">
+          <select id="historyFilterStatus" onchange="renderSalesHistoryTable()" class="bg-slate-800 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none">
+            <option value="ALL">All Statuses</option>
+            <option value="COMPLETED">Completed</option>
+            <option value="REFUNDED">Refunded</option>
+            <option value="PARTIALLY REFUNDED">Partially Refunded</option>
+          </select>
+          <input type="text" id="historySearchInput" oninput="renderSalesHistoryTable()" placeholder="Search Order # or Customer..." class="bg-slate-800 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white placeholder-slate-500 focus:outline-none" />
+        </div>
+      </div>
+
+      <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden shadow-xl">
+        <table class="w-full text-left text-xs text-slate-300">
+          <thead class="bg-slate-950 text-slate-400 font-bold uppercase tracking-wider border-b border-slate-800">
+            <tr>
+              <th class="px-5 py-3.5">Order Number</th>
+              <th class="px-5 py-3.5">Timestamp</th>
+              <th class="px-5 py-3.5">Customer</th>
+              <th class="px-5 py-3.5">Method</th>
+              <th class="px-5 py-3.5 text-center">Items</th>
+              <th class="px-5 py-3.5 text-right">Total Amount</th>
+              <th class="px-5 py-3.5 text-center">Status</th>
+              <th class="px-5 py-3.5 text-center">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="salesHistoryTableBody" class="divide-y divide-slate-800/60 font-medium"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- VIEW 3: RETURNS -->
+    <div id="view-returns" class="tab-view hidden h-full overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div>
+        <h2 class="font-display text-2xl font-bold text-white">Refunds & Returns Center</h2>
+      </div>
+      <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5 flex flex-col md:flex-row gap-4 items-center">
+        <div class="flex-1 w-full relative">
+          <i class="fa-solid fa-barcode absolute left-4 top-3.5 text-sky-400"></i>
+          <input type="text" id="returnOrderLookupInput" placeholder="Enter or Scan Receipt Order Number (e.g. POS-10041)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none" />
+        </div>
+        <button onclick="lookupOrderForReturn()" class="w-full md:w-auto bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm px-6 py-3 rounded-xl transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <span>Find Order</span>
+        </button>
+      </div>
+
+      <div id="returnProcessingPanel" class="hidden bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-700 pb-4">
+          <div>
+            <h3 class="font-bold text-white text-lg">Processing Return for <span id="returnOrderNumTitle" class="text-sky-400">POS-10041</span></h3>
+            <p id="returnOrderMetaText" class="text-xs text-slate-400 mt-0.5">Purchased on Today at 14:22 PM</p>
+          </div>
+          <span id="returnOrderStatusBadge" class="bg-emerald-500/10 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">COMPLETED</span>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-bold text-white text-xs uppercase tracking-wider">Select Line Items & Return Quantities:</h4>
+          <div id="returnItemsList" class="space-y-2"></div>
+        </div>
+
+        <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="text-xs font-bold text-slate-300 block mb-1.5">Return Reason</label>
+              <select id="returnReasonSelect" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white">
+                <option value="Damaged / Defective">Damaged / Defective Item</option>
+                <option value="Wrong Item Purchased">Wrong Item Purchased</option>
+                <option value="Customer Change of Mind">Customer Change of Mind</option>
+              </select>
+            </div>
+            <div>
+              <label class="text-xs font-bold text-slate-300 block mb-1.5">Restock Inventory?</label>
+              <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer pt-2">
+                <input type="checkbox" id="restockCheckbox" checked class="w-4 h-4 rounded text-sky-600 bg-slate-900 border-slate-700" />
+                <span>Yes, increment inventory stock (+Qty)</span>
+              </label>
+            </div>
+          </div>
+          <div class="border-t border-slate-800 pt-3 flex items-center justify-between">
+            <span class="text-xs font-bold text-slate-300">Total Refund Amount</span>
+            <span id="returnTotalAmountText" class="font-black text-2xl text-rose-400">$0.00</span>
+          </div>
+        </div>
+
+        <div class="flex justify-end gap-3">
+          <button onclick="document.getElementById('returnProcessingPanel').classList.add('hidden')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs px-5 py-3 rounded-xl border border-slate-700">Cancel</button>
+          <button onclick="submitReturnAndRefund()" class="bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs px-6 py-3 rounded-xl shadow-lg flex items-center gap-2">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Confirm & Issue Refund</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 4: REVENUE ANALYTICS -->
+    <div id="view-revenue" class="tab-view hidden h-full overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div><h2 class="font-display text-2xl font-bold text-white">Revenue & Financial Analytics</h2></div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Gross Revenue</span>
+          <h3 id="revGross" class="text-3xl font-black text-white mt-2">$0.00</h3>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Estimated Net Profit</span>
+          <h3 id="revNet" class="text-3xl font-black text-white mt-2">$0.00</h3>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Average Order Value</span>
+          <h3 id="revAOV" class="text-3xl font-black text-white mt-2">$0.00</h3>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Sales Tax</span>
+          <h3 id="revTax" class="text-3xl font-black text-amber-400 mt-2">$0.00</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIEW 5: CASHIER SUMMARY -->
+    <div id="view-cashier" class="tab-view hidden h-full overflow-y-auto custom-scrollbar p-6 space-y-6">
+      <div><h2 class="font-display text-2xl font-bold text-white">Cashier Shift Report</h2></div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Opening Float</span>
+          <h4 class="text-xl font-extrabold text-white mt-1">$200.00</h4>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Cash Collected</span>
+          <h4 id="cashierCashCollected" class="text-xl font-extrabold text-emerald-400 mt-1">$85.00</h4>
+        </div>
+        <div class="bg-slate-800/90 border border-slate-700/80 rounded-2xl p-5">
+          <span class="text-slate-400 text-xs font-bold uppercase">Expected Till Total</span>
+          <h4 id="cashierExpectedTill" class="text-xl font-extrabold text-sky-400 mt-1">$285.00</h4>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CUSTOMER SELECTION MODAL -->
+  <div id="customerModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-users text-sky-400 text-base"></i>
+          <h3 class="font-bold text-white text-base">Select Customer</h3>
+        </div>
+        <button onclick="closeCustomerModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <!-- Add New Customer form toggle -->
+        <div class="flex gap-2">
+          <input type="text" id="customerSearchInput" oninput="renderCustomerList()" placeholder="Search by name, phone or email..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none" />
+          <button onclick="toggleNewCustomerForm()" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition">
+            <i class="fa-solid fa-plus"></i> New Customer
+          </button>
+        </div>
+
+        <!-- Add Customer Form -->
+        <div id="newCustomerForm" class="hidden bg-slate-950 p-4 rounded-xl border border-slate-850 space-y-3">
+          <h4 class="font-bold text-white text-xs">Create Customer Profile</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="text" id="newCustName" placeholder="Full Name" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none" />
+            <input type="text" id="newCustPhone" placeholder="Phone Number" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none" />
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <input type="email" id="newCustEmail" placeholder="Email Address" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none" />
+            <select id="newCustTier" class="bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-slate-300 focus:outline-none">
+              <option value="Regular">Regular Tier</option>
+              <option value="VIP">VIP Tier</option>
+              <option value="Corporate">Corporate Tier</option>
+            </select>
+          </div>
+          <div class="flex justify-end gap-2 pt-2">
+            <button onclick="toggleNewCustomerForm()" class="bg-slate-800 text-slate-300 text-xs px-3 py-1.5 rounded-lg">Cancel</button>
+            <button onclick="createNewCustomer()" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-1.5 rounded-lg">Save Profile</button>
+          </div>
+        </div>
+
+        <!-- Customer List -->
+        <div class="overflow-y-auto max-h-[250px] custom-scrollbar space-y-2" id="customerListContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HELD SALES (RESUME) MODAL -->
+  <div id="heldSalesModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-pause text-amber-400"></i>
+          <h3 class="font-bold text-white text-base">Held Sales & Carts</h3>
+        </div>
+        <button onclick="closeHeldSalesModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="p-5 space-y-3">
+        <p class="text-xs text-slate-400">Select a held transaction to resume checkout or void:</p>
+        <div class="overflow-y-auto max-h-[300px] custom-scrollbar space-y-2.5" id="heldSalesListContainer"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT VARIANTS SELECTION MODAL -->
+  <div id="variantModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-layer-group text-sky-400"></i>
+          <h3 id="variantModalTitle" class="font-bold text-white text-base">Select Product Variant</h3>
+        </div>
+        <button onclick="closeVariantModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <p class="text-xs text-slate-400">Choose size / option variant before adding to cart:</p>
+        <div id="variantOptionsList" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS CHEAT SHEET MODAL -->
+  <div id="shortcutsModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-keyboard text-sky-400 text-lg"></i>
+          <h3 class="font-bold text-white text-base">POS Keyboard Shortcuts Cheat Sheet</h3>
+        </div>
+        <button onclick="closeShortcutsModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div class="p-5 space-y-4 text-xs text-slate-300">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Quick Product Search</span>
+            <kbd>F1</kbd> or <kbd>/</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>POS Terminal View</span>
+            <kbd>F2</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Sales History View</span>
+            <kbd>F3</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Returns & Refunds</span>
+            <kbd>F4</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Revenue Analytics</span>
+            <kbd>F5</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Cashier Shift Report</span>
+            <kbd>F6</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Open Checkout Modal</span>
+            <kbd>F8</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Clear Active Cart</span>
+            <kbd>Alt + C</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Close Modal / Clear Search</span>
+            <kbd>Esc</kbd>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Open Shortcuts Help</span>
+            <kbd>F12</kbd>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHECKOUT PAYMENT MODAL -->
+  <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="font-bold text-lg text-white">POS Checkout Portal</h3>
+        <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div id="paymentSelectionView" class="p-5 space-y-4">
+        <div class="grid grid-cols-3 gap-2">
+          <button onclick="selectPaymentMethod('CASH')" id="pay-CASH" class="pay-method-btn active bg-sky-600 text-white border-sky-500 p-3 rounded-xl border flex flex-col items-center gap-1.5"><i class="fa-solid fa-money-bill-wave text-xl"></i><span class="text-xs font-bold">Cash</span></button>
+          <button onclick="selectPaymentMethod('CARD')" id="pay-CARD" class="pay-method-btn bg-slate-800 text-slate-300 border-slate-700 p-3 rounded-xl border flex flex-col items-center gap-1.5"><i class="fa-solid fa-credit-card text-xl"></i><span class="text-xs font-bold">Card</span></button>
+          <button onclick="selectPaymentMethod('QR')" id="pay-QR" class="pay-method-btn bg-slate-800 text-slate-300 border-slate-700 p-3 rounded-xl border flex flex-col items-center gap-1.5"><i class="fa-solid fa-qrcode text-xl"></i><span class="text-xs font-bold">QR</span></button>
+        </div>
+
+        <div id="cashTenderSection" class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-3">
+          <div class="grid grid-cols-4 gap-2">
+            <button onclick="setTenderAmount(10)" class="bg-slate-800 text-white font-bold text-xs py-2 rounded-lg border border-slate-700">$10</button>
+            <button onclick="setTenderAmount(20)" class="bg-slate-800 text-white font-bold text-xs py-2 rounded-lg border border-slate-700">$20</button>
+            <button onclick="setTenderAmount(50)" class="bg-slate-800 text-white font-bold text-xs py-2 rounded-lg border border-slate-700">$50</button>
+            <button onclick="setTenderAmount(100)" class="bg-slate-800 text-white font-bold text-xs py-2 rounded-lg border border-slate-700">$100</button>
+          </div>
+          <div class="grid grid-cols-2 gap-3 pt-1">
+            <div>
+              <label class="text-[11px] text-slate-400 font-bold uppercase block mb-1">Cash Received ($)</label>
+              <input type="number" id="tenderInput" step="0.01" oninput="calculateChangeDue()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white font-bold" />
+            </div>
+            <div>
+              <label class="text-[11px] text-slate-400 font-bold uppercase block mb-1">Change Due ($)</label>
+              <div id="changeDueBox" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm font-extrabold text-emerald-400">$0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <button onclick="processFinalPayment()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold py-3.5 rounded-xl flex items-center justify-center gap-2 text-base">
+          <i class="fa-solid fa-circle-check"></i>
+          <span>Complete Order & Print Receipt</span>
+        </button>
+      </div>
+
+      <div id="receiptSuccessView" class="hidden p-6 text-center space-y-4">
+        <h3 class="font-extrabold text-xl text-white">Transaction Completed!</h3>
+        <p id="receiptOrderNum" class="text-xs text-slate-400">Order #POS-10042</p>
+        <button onclick="closeCheckoutModal()" class="w-full bg-sky-600 text-white font-bold py-2.5 rounded-xl text-xs">Start Next Order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALE DETAILS & RECEIPT MODAL -->
+  <div id="saleDetailsModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl max-h-[90vh] flex flex-col">
+      <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-receipt text-sky-400"></i>
+          <h3 class="font-bold text-white text-base">Sale Details & Receipt Inspection</h3>
+        </div>
+        <button onclick="closeSaleDetailsModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <div id="printableReceiptArea" class="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar bg-white text-slate-950 font-mono"></div>
+
+      <div class="p-4 bg-slate-950 border-t border-slate-800 flex gap-2">
+        <button onclick="window.print()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2 text-xs">
+          <i class="fa-solid fa-print"></i> Print Receipt
+        </button>
+        <button id="saleDetailsRefundBtn" onclick="" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs">
+          <i class="fa-solid fa-rotate-left"></i> Issue Refund
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    // INITIAL DATA
+    const INITIAL_PRODUCTS = [
+      {
+        id: '1',
+        name: 'Artisan Espresso',
+        sku: 'BEV-001',
+        barcode: '8901001001',
+        price: 3.50,
+        category: 'Beverages',
+        stock: 48,
+        hasVariants: true,
+        variants: [
+          { id: '1-single', name: 'Single Shot 4oz', price: 3.50, sku: 'BEV-001-S' },
+          { id: '1-double', name: 'Double Shot 8oz', price: 4.50, sku: 'BEV-001-D' },
+          { id: '1-triple', name: 'Triple Shot 12oz', price: 5.50, sku: 'BEV-001-T' },
+        ],
+        imageUrl: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80'
+      },
+      {
+        id: '2',
+        name: 'Iced Vanilla Oat Latte',
+        sku: 'BEV-002',
+        barcode: '8901001002',
+        price: 5.25,
+        category: 'Beverages',
+        stock: 32,
+        hasVariants: true,
+        variants: [
+          { id: '2-regular', name: 'Regular 12oz', price: 5.25, sku: 'BEV-002-R' },
+          { id: '2-large', name: 'Large 16oz', price: 6.25, sku: 'BEV-002-L' },
+        ],
+        imageUrl: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80'
+      },
+      { id: '3', name: 'Matcha Green Tea Latte', sku: 'BEV-003', barcode: '8901001003', price: 5.75, category: 'Beverages', stock: 25, imageUrl: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80' },
+      { id: '4', name: 'Freshly Baked Croissant', sku: 'BAK-001', barcode: '8902002001', price: 3.25, category: 'Bakery', stock: 18, imageUrl: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80' },
+      { id: '5', name: 'Avocado Toast & Sourdough', sku: 'BAK-002', barcode: '8902002002', price: 8.50, category: 'Bakery', stock: 4, imageUrl: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?auto=format&fit=crop&w=600&q=80' },
+      { id: '6', name: 'Chocolate Chip Cookie', sku: 'BAK-003', barcode: '8902002003', price: 2.75, category: 'Bakery', stock: 40, imageUrl: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80' },
+      { id: '7', name: 'Smoked Turkey Sandwich', sku: 'SNK-001', barcode: '8903003001', price: 9.75, category: 'Snacks', stock: 15, imageUrl: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80' },
+      { id: '8', name: 'Organic Granola Bowl', sku: 'SNK-002', barcode: '8903003002', price: 6.95, category: 'Snacks', stock: 20, imageUrl: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80' },
+      { id: '9', name: 'Fresh Fuji Apple', sku: 'PRD-001', barcode: '8904004001', price: 1.50, category: 'Produce', stock: 60, imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80' },
+      { id: '10', name: 'Organic Whole Milk 1L', sku: 'DRY-001', barcode: '8905005001', price: 4.10, category: 'Dairy', stock: 30, imageUrl: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80' },
+    ];
+
+    const INITIAL_CUSTOMERS = [
+      { id: 'cust-1', name: 'Walk-in Guest', phone: 'N/A', email: 'N/A', tier: 'Regular', points: 0 },
+      { id: 'cust-2', name: 'Marwa Gravity', phone: '555-0199', email: 'marwa@gravity.com', tier: 'VIP', points: 320 },
+      { id: 'cust-3', name: 'Alex Rivera', phone: '555-0144', email: 'alex@rivera.dev', tier: 'Corporate', points: 1500 }
+    ];
+
+    const INITIAL_TRANSACTIONS = [
+      {
+        orderNumber: 'POS-10041',
+        time: 'Today, 14:22 PM',
+        customer: 'Walk-in Guest',
+        method: 'CASH',
+        itemsCount: 3,
+        subtotal: 12.00,
+        tax: 0.96,
+        discount: 0,
+        total: 12.96,
+        status: 'COMPLETED',
+        cashier: 'Jane Smith',
+        items: [
+          { productId: '1-double', productName: 'Artisan Espresso (Double Shot 8oz)', sku: 'BEV-001-D', unitPrice: 4.50, quantity: 2, subtotal: 9.00, returnedQty: 0 },
+          { productId: '4', productName: 'Freshly Baked Croissant', sku: 'BAK-001', unitPrice: 3.25, quantity: 1, subtotal: 3.25, returnedQty: 0 },
+        ]
+      }
+    ];
+
+    // GLOBAL APP STATE
+    let products = JSON.parse(localStorage.getItem('pos_products')) || INITIAL_PRODUCTS;
+    let customers = JSON.parse(localStorage.getItem('pos_customers')) || INITIAL_CUSTOMERS;
+    let transactions = JSON.parse(localStorage.getItem('pos_transactions')) || INITIAL_TRANSACTIONS;
+    let heldSales = JSON.parse(localStorage.getItem('pos_held_sales')) || [];
+    let cart = [];
+    let selectedCustomer = customers[0];
+    let selectedCategory = 'All';
+    let searchQuery = '';
+    let discountRate = 0;
+    let selectedPaymentMethod = 'CASH';
+    let currentTenderAmount = 0;
+    let currentTotalDue = 0;
+    let activeVariantProduct = null;
+    let activeReturnTransaction = null;
+
+    // INIT
+    window.addEventListener('DOMContentLoaded', () => {
+      startLiveClock();
+      setupKeyboardShortcuts();
+      renderCategories();
+      renderProducts();
+      renderCart();
+      renderSalesHistoryTable();
+      updateAnalyticsViews();
+      updateHeldCartsBadge();
+    });
+
+    // KEYBOARD SHORTCUTS ENGINE
+    function setupKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'F1' || (e.key === '/' && document.activeElement.tagName !== 'INPUT')) {
+          e.preventDefault();
+          switchTab('terminal');
+          document.getElementById('searchInput').focus();
+          document.getElementById('searchInput').select();
+          return;
+        }
+
+        if (e.key === 'F2') { e.preventDefault(); switchTab('terminal'); return; }
+        if (e.key === 'F3') { e.preventDefault(); switchTab('history'); return; }
+        if (e.key === 'F4') { e.preventDefault(); switchTab('returns'); return; }
+        if (e.key === 'F5') { e.preventDefault(); switchTab('revenue'); return; }
+        if (e.key === 'F6') { e.preventDefault(); switchTab('cashier'); return; }
+        if (e.key === 'F8') {
+          e.preventDefault();
+          if (cart.length > 0) openCheckoutModal();
+          return;
+        }
+        if (e.key === 'F12') { e.preventDefault(); openShortcutsModal(); return; }
+
+        if (e.altKey && (e.key === 'c' || e.key === 'C')) {
+          e.preventDefault();
+          clearCart();
+          return;
+        }
+
+        if (e.key === 'Escape') {
+          closeShortcutsModal();
+          closeVariantModal();
+          closeCheckoutModal();
+          closeSaleDetailsModal();
+          closeCustomerModal();
+          closeHeldSalesModal();
+          if (document.activeElement === document.getElementById('searchInput')) {
+            clearSearch();
+          }
+        }
+      });
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-view').forEach(view => view.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(`view-${tabName}`).classList.remove('hidden');
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+
+      if (tabName === 'history') renderSalesHistoryTable();
+      if (tabName === 'revenue' || tabName === 'cashier') updateAnalyticsViews();
+    }
+
+    function startLiveClock() {
+      const clockEl = document.getElementById('liveClock');
+      function update() {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' | ' + now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+      }
+      update();
+      setInterval(update, 1000);
+    }
+
+    function renderCategories() {
+      const categories = ['All', 'Beverages', 'Bakery', 'Snacks', 'Produce', 'Dairy'];
+      const container = document.getElementById('categoryContainer');
+      const icons = { All: 'fa-border-all', Beverages: 'fa-mug-hot', Bakery: 'fa-cookie', Snacks: 'fa-utensils', Produce: 'fa-apple-whole', Dairy: 'fa-cow' };
+
+      container.innerHTML = categories.map(cat => `
+        <button onclick="selectCategory('${cat}')" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border ${selectedCategory === cat ? 'bg-sky-600 text-white border-sky-500 shadow-md' : 'bg-slate-800 text-slate-300 border-slate-700 hover:bg-slate-700'}">
+          <i class="fa-solid ${icons[cat] || 'fa-tag'}"></i>
+          <span>${cat}</span>
+        </button>
+      `).join('');
+    }
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      renderCategories();
+      renderProducts();
+    }
+
+    function handleSearchInput(val) {
+      searchQuery = val;
+      const q = val.trim().toLowerCase();
+
+      const exactMatch = products.find(p => p.barcode && p.barcode.toLowerCase() === q);
+      if (exactMatch) {
+        addToCart(exactMatch.id);
+        clearSearch();
+        return;
+      }
+
+      renderProducts();
+    }
+
+    function clearSearch() {
+      document.getElementById('searchInput').value = '';
+      searchQuery = '';
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const filtered = products.filter(p => {
+        const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
+        const q = searchQuery.toLowerCase().trim();
+        const matchesSearch = !q || p.name.toLowerCase().includes(q) || p.sku.toLowerCase().includes(q) || (p.barcode && p.barcode.toLowerCase().includes(q));
+        return matchesCategory && matchesSearch;
+      });
+
+      document.getElementById('productCountBadge').textContent = `${filtered.length} Products`;
+      const grid = document.getElementById('productGrid');
+
+      grid.innerHTML = filtered.map(product => {
+        const cartQty = cart.filter(item => item.parentProductId === product.id || item.id === product.id).reduce((sum, item) => sum + item.quantity, 0);
+        const isOutOfStock = product.stock <= 0;
+
+        return `
+          <div class="product-card bg-slate-800/90 border ${cartQty > 0 ? 'border-sky-500 ring-1 ring-sky-500' : 'border-slate-700'} rounded-2xl overflow-hidden flex flex-col justify-between ${isOutOfStock ? 'opacity-50 pointer-events-none' : ''}">
+            <div class="h-28 w-full bg-slate-900 relative">
+              <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-full object-cover" />
+              <span class="absolute top-2 left-2 bg-slate-950/80 text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded border border-slate-700">${product.sku}</span>
+              ${product.hasVariants ? `<span class="absolute bottom-2 left-2 bg-sky-600/90 text-white text-[10px] font-bold px-2 py-0.5 rounded">Variants</span>` : ''}
+              ${cartQty > 0 ? `<span class="absolute top-2 right-2 bg-sky-600 text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center">${cartQty}</span>` : ''}
+            </div>
+
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] font-bold uppercase text-sky-400">${product.category}</span>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">${product.name}</h4>
+              </div>
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$${Number(product.price).toFixed(2)}${product.hasVariants ? '+' : ''}</span>
+                <button onclick="addToCart('${product.id}')" class="bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1">
+                  <i class="fa-solid ${cartQty > 0 ? 'fa-check' : 'fa-plus'}"></i>
+                  <span>${product.hasVariants ? 'Options' : cartQty > 0 ? 'Added' : 'Add'}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product || product.stock <= 0) return;
+
+      if (product.hasVariants && product.variants) {
+        openVariantModal(product);
+        return;
+      }
+
+      addVariantToCart(product.id, product.name, product.sku, product.price, product.imageUrl, product.id);
+    }
+
+    function openVariantModal(product) {
+      activeVariantProduct = product;
+      document.getElementById('variantModalTitle').textContent = `Select Option for ${product.name}`;
+      const optionsList = document.getElementById('variantOptionsList');
+
+      optionsList.innerHTML = product.variants.map(variant => `
+        <button onclick="addVariantToCart('${variant.id}', '${product.name} (${variant.name})', '${variant.sku}', ${variant.price}, '${product.imageUrl}', '${product.id}')" class="w-full bg-slate-950 hover:bg-sky-600/20 border border-slate-800 hover:border-sky-500 p-3 rounded-xl flex items-center justify-between transition text-left group">
+          <div>
+            <h5 class="font-bold text-white text-xs group-hover:text-sky-400">${variant.name}</h5>
+            <span class="text-[10px] text-slate-400">SKU: ${variant.sku}</span>
+          </div>
+          <span class="font-extrabold text-emerald-400 text-sm">$${variant.price.toFixed(2)}</span>
+        </button>
+      `).join('');
+
+      document.getElementById('variantModal').classList.remove('hidden');
+    }
+
+    function closeVariantModal() {
+      document.getElementById('variantModal').classList.add('hidden');
+    }
+
+    function addVariantToCart(id, name, sku, price, imageUrl, parentProductId) {
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ id, name, sku, price: Number(price), imageUrl, parentProductId, quantity: 1 });
+      }
+
+      closeVariantModal();
+      renderProducts();
+      renderCart();
+    }
+
+    function updateCartQuantity(productId, delta) {
+      const idx = cart.findIndex(item => item.id === productId);
+      if (idx === -1) return;
+      cart[idx].quantity += delta;
+      if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+      renderProducts();
+      renderCart();
+    }
+
+    function removeProductFromCart(productId) {
+      cart = cart.filter(item => item.id !== productId);
+      renderProducts();
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      discountRate = 0;
+      setDiscount(0);
+      renderProducts();
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById('cartItemsContainer');
+      const emptyView = document.getElementById('emptyCartView');
+      const checkoutBtn = document.getElementById('checkoutBtn');
+      const holdCartBtn = document.getElementById('holdCartBtn');
+      const clearCartBtn = document.getElementById('clearCartBtn');
+      const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+      document.getElementById('cartItemsCountText').textContent = `${totalItemsCount} items in cart`;
+
+      if (cart.length === 0) {
+        container.innerHTML = '';
+        emptyView.classList.replace('hidden', 'flex');
+        checkoutBtn.disabled = true;
+        holdCartBtn.classList.replace('flex', 'hidden');
+        clearCartBtn.classList.replace('flex', 'hidden');
+        updateSummaryDisplay(0, 0, 0, 0);
+        return;
+      }
+
+      emptyView.classList.replace('flex', 'hidden');
+      checkoutBtn.disabled = false;
+      holdCartBtn.classList.replace('hidden', 'flex');
+      clearCartBtn.classList.replace('hidden', 'flex');
+
+      container.innerHTML = cart.map(item => `
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2">
+          <img src="${item.imageUrl}" alt="${item.name}" class="w-10 h-10 rounded-lg object-cover bg-slate-800" />
+          <div class="flex-1 min-w-0">
+            <h5 class="font-bold text-white text-xs truncate">${item.name}</h5>
+            <p class="text-[11px] text-slate-400 mt-0.5">$${item.price.toFixed(2)} x ${item.quantity}</p>
+          </div>
+          <div class="flex items-center bg-slate-900 rounded-lg border border-slate-800">
+            <button onclick="updateCartQuantity('${item.id}', -1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs"><i class="fa-solid fa-minus"></i></button>
+            <span class="px-2 text-xs font-bold text-white">${item.quantity}</span>
+            <button onclick="updateCartQuantity('${item.id}', 1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <span class="font-extrabold text-emerald-400 text-xs w-14 text-right">$${(item.price * item.quantity).toFixed(2)}</span>
+          <button onclick="removeProductFromCart('${item.id}')" title="Remove Product" class="bg-red-500/10 text-red-400 p-2 rounded-lg border border-red-500/30">
+            <i class="fa-regular fa-trash-can text-xs"></i>
+          </button>
+        </div>
+      `).join('');
+
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const discountAmount = (subtotal * discountRate) / 100;
+      const taxable = Math.max(0, subtotal - discountAmount);
+      const tax = taxable * 0.08;
+      const total = taxable + tax;
+
+      updateSummaryDisplay(subtotal, discountAmount, tax, total);
+    }
+
+    function setDiscount(rate) {
+      discountRate = rate;
+      renderCart();
+    }
+
+    function updateSummaryDisplay(subtotal, discountAmount, tax, total) {
+      document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+      document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+      document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+    }
+
+    // CUSTOMER SELECTION LOGIC
+    function openCustomerModal() {
+      document.getElementById('customerModal').classList.remove('hidden');
+      renderCustomerList();
+    }
+
+    function closeCustomerModal() {
+      document.getElementById('customerModal').classList.add('hidden');
+      document.getElementById('newCustomerForm').classList.add('hidden');
+    }
+
+    function toggleNewCustomerForm() {
+      const form = document.getElementById('newCustomerForm');
+      form.classList.toggle('hidden');
+    }
+
+    function createNewCustomer() {
+      const name = document.getElementById('newCustName').value.trim();
+      const phone = document.getElementById('newCustPhone').value.trim();
+      const email = document.getElementById('newCustEmail').value.trim();
+      const tier = document.getElementById('newCustTier').value;
+
+      if (!name) {
+        alert('Customer name is required.');
+        return;
+      }
+
+      const newCustomer = {
+        id: `cust-${Date.now()}`,
+        name,
+        phone: phone || 'N/A',
+        email: email || 'N/A',
+        tier,
+        points: 0
+      };
+
+      customers.push(newCustomer);
+      localStorage.setItem('pos_customers', JSON.stringify(customers));
+
+      // Reset fields
+      document.getElementById('newCustName').value = '';
+      document.getElementById('newCustPhone').value = '';
+      document.getElementById('newCustEmail').value = '';
+      document.getElementById('newCustTier').value = 'Regular';
+
+      toggleNewCustomerForm();
+      renderCustomerList();
+    }
+
+    function selectCustomer(id) {
+      const cust = customers.find(c => c.id === id);
+      if (cust) {
+        selectedCustomer = cust;
+        document.getElementById('selectedCustomerDisplay').textContent = cust.name;
+        document.getElementById('selectedCustomerTier').textContent = cust.tier;
+        closeCustomerModal();
+      }
+    }
+
+    function renderCustomerList() {
+      const search = document.getElementById('customerSearchInput').value.toLowerCase();
+      const listContainer = document.getElementById('customerListContainer');
+
+      const filtered = customers.filter(c => 
+        c.name.toLowerCase().includes(search) || 
+        c.phone.toLowerCase().includes(search) || 
+        c.email.toLowerCase().includes(search)
+      );
+
+      listContainer.innerHTML = filtered.map(c => `
+        <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex justify-between items-center">
+          <div>
+            <h5 class="font-bold text-white text-xs">${c.name}</h5>
+            <p class="text-[10px] text-slate-400">Phone: ${c.phone} | Email: ${c.email}</p>
+            <div class="mt-1 flex items-center gap-2">
+              <span class="text-[9px] bg-sky-500/10 text-sky-400 font-bold px-1.5 py-0.5 rounded border border-sky-500/20">${c.tier} Tier</span>
+              <span class="text-[9px] text-emerald-400">${c.points} Loyalty Points</span>
+            </div>
+          </div>
+          <button onclick="selectCustomer('${c.id}')" class="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-3.5 py-1.5 rounded-lg">Select</button>
+        </div>
+      `).join('');
+    }
+
+    // HOLD & RESUME SALE LOGIC
+    function holdCurrentSale() {
+      if (cart.length === 0) return;
+      const ref = prompt("Enter a reference name or number to hold this sale:", `Cart #${heldSales.length + 1}`);
+      if (ref === null) return; // Cancel hold
+
+      heldSales.push({
+        id: `held-${Date.now()}`,
+        reference: ref || `Cart #${heldSales.length + 1}`,
+        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        customer: selectedCustomer,
+        cart: [...cart],
+        discountRate: discountRate
+      });
+
+      localStorage.setItem('pos_held_sales', JSON.stringify(heldSales));
+      updateHeldCartsBadge();
+      clearCart();
+    }
+
+    function openHeldSalesModal() {
+      document.getElementById('heldSalesModal').classList.remove('hidden');
+      renderHeldSalesList();
+    }
+
+    function closeHeldSalesModal() {
+      document.getElementById('heldSalesModal').classList.add('hidden');
+    }
+
+    function updateHeldCartsBadge() {
+      document.getElementById('heldCartsCountBadge').textContent = heldSales.length;
+    }
+
+    function resumeHeldSale(id) {
+      const heldIdx = heldSales.findIndex(h => h.id === id);
+      if (heldIdx === -1) return;
+
+      const held = heldSales[heldIdx];
+      cart = [...held.cart];
+      selectedCustomer = held.customer;
+      discountRate = held.discountRate;
+
+      // Update customer displays
+      document.getElementById('selectedCustomerDisplay').textContent = selectedCustomer.name;
+      document.getElementById('selectedCustomerTier').textContent = selectedCustomer.tier;
+
+      // Remove from held
+      heldSales.splice(heldIdx, 1);
+      localStorage.setItem('pos_held_sales', JSON.stringify(heldSales));
+
+      updateHeldCartsBadge();
+      closeHeldSalesModal();
+      renderProducts();
+      renderCart();
+    }
+
+    function voidHeldSale(id) {
+      if (confirm("Are you sure you want to void this held sale?")) {
+        heldSales = heldSales.filter(h => h.id !== id);
+        localStorage.setItem('pos_held_sales', JSON.stringify(heldSales));
+        updateHeldCartsBadge();
+        renderHeldSalesList();
+      }
+    }
+
+    function renderHeldSalesList() {
+      const container = document.getElementById('heldSalesListContainer');
+
+      if (heldSales.length === 0) {
+        container.innerHTML = `<p class="text-center py-6 text-slate-500 text-xs">No held sales found.</p>`;
+        return;
+      }
+
+      container.innerHTML = heldSales.map(h => {
+        const totalAmount = h.cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        return `
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex justify-between items-center">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-bold text-amber-400 text-xs">${h.reference}</span>
+                <span class="text-[10px] text-slate-500">${h.time}</span>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-1">Customer: ${h.customer.name} | Items: ${h.cart.length}</p>
+              <p class="text-xs font-bold text-emerald-400 mt-0.5">Est. Total: $${totalAmount.toFixed(2)}</p>
+            </div>
+            <div class="flex gap-2">
+              <button onclick="voidHeldSale('${h.id}')" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-2.5 py-1.5 rounded-lg text-xs font-bold">Void</button>
+              <button onclick="resumeHeldSale('${h.id}')" class="bg-sky-600 hover:bg-sky-500 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold">Resume</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // PRODUCT RETURNS ENGINE
+    function lookupOrderForReturn() {
+      const orderNo = document.getElementById('returnOrderLookupInput').value.trim();
+      const order = transactions.find(t => t.orderNumber.toLowerCase() === orderNo.toLowerCase());
+
+      if (!order) {
+        alert("Receipt / Order Number not found. Please try again.");
+        return;
+      }
+
+      activeReturnTransaction = order;
+      document.getElementById('returnOrderNumTitle').textContent = order.orderNumber;
+      document.getElementById('returnOrderMetaText').textContent = `Purchased on ${order.time} | Customer: ${order.customer}`;
+      document.getElementById('returnOrderStatusBadge').textContent = order.status;
+
+      // Render Return Items selector list
+      const itemsListContainer = document.getElementById('returnItemsList');
+      itemsListContainer.innerHTML = order.items.map((item, idx) => {
+        const maxReturnable = item.quantity - (item.returnedQty || 0);
+        return `
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <h5 class="font-bold text-white text-xs">${item.productName}</h5>
+              <p class="text-[10px] text-slate-400">SKU: ${item.sku} | Quantity: ${item.quantity} (Already returned: ${item.returnedQty || 0})</p>
+            </div>
+            <div class="flex items-center gap-2">
+              <label class="text-[10px] text-slate-400">Qty to Return:</label>
+              <input type="number" id="returnQtyInput-${idx}" min="0" max="${maxReturnable}" value="0" class="bg-slate-900 border border-slate-700 text-xs text-white rounded px-2 py-1 w-16 focus:outline-none" onchange="calculateRefundPreview()" />
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('returnProcessingPanel').classList.remove('hidden');
+      calculateRefundPreview();
+    }
+
+    function calculateRefundPreview() {
+      if (!activeReturnTransaction) return;
+      let totalRefund = 0;
+
+      activeReturnTransaction.items.forEach((item, idx) => {
+        const qty = parseInt(document.getElementById(`returnQtyInput-${idx}`).value) || 0;
+        totalRefund += qty * item.unitPrice;
+      });
+
+      // Factor in sales tax (8%) if applicable
+      const refundTax = totalRefund * 0.08;
+      const totalRefundWithTax = totalRefund + refundTax;
+
+      document.getElementById('returnTotalAmountText').textContent = `$${totalRefundWithTax.toFixed(2)}`;
+    }
+
+    function submitReturnAndRefund() {
+      if (!activeReturnTransaction) return;
+
+      let returnedAny = false;
+      let refundTotal = 0;
+      const shouldRestock = document.getElementById('restockCheckbox').checked;
+
+      activeReturnTransaction.items.forEach((item, idx) => {
+        const qty = parseInt(document.getElementById(`returnQtyInput-${idx}`).value) || 0;
+        if (qty > 0) {
+          returnedAny = true;
+          item.returnedQty = (item.returnedQty || 0) + qty;
+          refundTotal += qty * item.unitPrice;
+
+          // Perform restock inventory if selected
+          if (shouldRestock) {
+            const product = products.find(p => p.id === item.productId || p.variants?.some(v => v.id === item.productId));
+            if (product) {
+              product.stock += qty;
+            }
+          }
+        }
+      });
+
+      if (!returnedAny) {
+        alert("Please select at least 1 item and quantity to return.");
+        return;
+      }
+
+      // Add sales tax (8%) to refund
+      const refundTax = refundTotal * 0.08;
+      const finalRefund = refundTotal + refundTax;
+
+      // Update Order Status
+      let allReturned = true;
+      activeReturnTransaction.items.forEach(item => {
+        if ((item.returnedQty || 0) < item.quantity) {
+          allReturned = false;
+        }
+      });
+
+      activeReturnTransaction.status = allReturned ? 'REFUNDED' : 'PARTIALLY REFUNDED';
+
+      // Save application states
+      localStorage.setItem('pos_products', JSON.stringify(products));
+      localStorage.setItem('pos_transactions', JSON.stringify(transactions));
+
+      alert(`Refund of $${finalRefund.toFixed(2)} processed successfully!`);
+
+      // Reset and Refresh Views
+      document.getElementById('returnProcessingPanel').classList.add('hidden');
+      document.getElementById('returnOrderLookupInput').value = '';
+      renderProducts();
+      renderSalesHistoryTable();
+      updateAnalyticsViews();
+    }
+
+    // CHECKOUT MODAL
+    function openCheckoutModal() {
+      if (cart.length === 0) return;
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const discountAmount = (subtotal * discountRate) / 100;
+      const tax = Math.max(0, subtotal - discountAmount) * 0.08;
+      currentTotalDue = Math.max(0, subtotal - discountAmount) + tax;
+
+      document.getElementById('checkoutModal').classList.remove('hidden');
+      document.getElementById('tenderInput').value = '';
+      document.getElementById('changeDueBox').textContent = '$0.00';
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById('checkoutModal').classList.add('hidden');
+    }
+
+    function selectPaymentMethod(method) {
+      selectedPaymentMethod = method;
+      document.querySelectorAll('.pay-method-btn').forEach(btn => btn.classList.remove('active', 'bg-sky-600', 'text-white', 'border-sky-500'));
+      document.getElementById(`pay-${method}`).classList.add('active', 'bg-sky-600', 'text-white', 'border-sky-500');
+    }
+
+    function setTenderAmount(amount) {
+      document.getElementById('tenderInput').value = amount.toFixed(2);
+      calculateChangeDue();
+    }
+
+    function calculateChangeDue() {
+      const inputVal = parseFloat(document.getElementById('tenderInput').value) || 0;
+      currentTenderAmount = inputVal;
+      const change = Math.max(0, currentTenderAmount - currentTotalDue);
+      document.getElementById('changeDueBox').textContent = `$${change.toFixed(2)}`;
+    }
+
+    function processFinalPayment() {
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const discountAmount = (subtotal * discountRate) / 100;
+      const tax = Math.max(0, subtotal - discountAmount) * 0.08;
+      const total = Math.max(0, subtotal - discountAmount) + tax;
+      const orderNum = `POS-${Math.floor(10000 + Math.random() * 90000)}`;
+
+      cart.forEach(cartItem => {
+        const pId = cartItem.parentProductId || cartItem.id;
+        const p = products.find(prod => prod.id === pId);
+        if (p) {
+          p.stock = Math.max(0, p.stock - cartItem.quantity);
+          p.soldCount = (p.soldCount || 0) + cartItem.quantity;
+        }
+      });
+
+      // Update customer loyalty points
+      if (selectedCustomer.id !== 'cust-1') {
+        const custIdx = customers.findIndex(c => c.id === selectedCustomer.id);
+        if (custIdx !== -1) {
+          customers[custIdx].points += Math.floor(total);
+          localStorage.setItem('pos_customers', JSON.stringify(customers));
+        }
+      }
+
+      const newTransaction = {
+        orderNumber: orderNum,
+        time: 'Today, ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+        customer: selectedCustomer.name,
+        method: selectedPaymentMethod,
+        itemsCount: cart.reduce((a, b) => a + b.quantity, 0),
+        subtotal,
+        discount: discountAmount,
+        tax,
+        total,
+        status: 'COMPLETED',
+        cashier: 'Jane Smith',
+        items: cart.map(item => ({
+          productId: item.id,
+          productName: item.name,
+          sku: item.sku,
+          unitPrice: item.price,
+          quantity: item.quantity,
+          subtotal: item.price * item.quantity,
+          returnedQty: 0
+        }))
+      };
+
+      transactions.unshift(newTransaction);
+      localStorage.setItem('pos_products', JSON.stringify(products));
+      localStorage.setItem('pos_transactions', JSON.stringify(transactions));
+
+      // Reset active customer to Walk-in
+      selectedCustomer = customers[0];
+      document.getElementById('selectedCustomerDisplay').textContent = selectedCustomer.name;
+      document.getElementById('selectedCustomerTier').textContent = selectedCustomer.tier;
+
+      clearCart();
+      closeCheckoutModal();
+      openSaleDetailsModal(orderNum);
+      updateAnalyticsViews();
+    }
+
+    function renderSalesHistoryTable() {
+      const tbody = document.getElementById('salesHistoryTableBody');
+      const query = document.getElementById('historySearchInput').value.toLowerCase();
+      const statusFilter = document.getElementById('historyFilterStatus').value;
+      document.getElementById('navHistoryBadge').textContent = transactions.length;
+
+      const filtered = transactions.filter(t => {
+        const matchesQuery = t.orderNumber.toLowerCase().includes(query) || t.customer.toLowerCase().includes(query);
+        const matchesStatus = statusFilter === 'ALL' || t.status === statusFilter;
+        return matchesQuery && matchesStatus;
+      });
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="text-center py-8 text-slate-500">No transaction records found.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(t => {
+        let statusClass = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30';
+        if (t.status === 'REFUNDED') statusClass = 'bg-rose-500/10 text-red-400 border-red-500/30';
+        if (t.status === 'PARTIALLY REFUNDED') statusClass = 'bg-amber-500/10 text-amber-400 border-amber-500/30';
+
+        return `
+          <tr class="hover:bg-slate-900/60 transition">
+            <td class="px-5 py-3.5 font-bold text-sky-400">${t.orderNumber}</td>
+            <td class="px-5 py-3.5 text-slate-400">${t.time}</td>
+            <td class="px-5 py-3.5 font-medium text-white">${t.customer}</td>
+            <td class="px-5 py-3.5 font-bold text-slate-300"><span class="px-2 py-0.5 rounded-md bg-slate-800 border border-slate-700">${t.method}</span></td>
+            <td class="px-5 py-3.5 text-center text-slate-300">${t.itemsCount}</td>
+            <td class="px-5 py-3.5 text-right font-extrabold text-emerald-400">$${Number(t.total).toFixed(2)}</td>
+            <td class="px-5 py-3.5 text-center"><span class="text-[10px] font-bold px-2.5 py-1 rounded-full border ${statusClass}">${t.status}</span></td>
+            <td class="px-5 py-3.5 text-center">
+              <button onclick="openSaleDetailsModal('${t.orderNumber}')" class="bg-slate-800 text-sky-400 px-2.5 py-1.5 rounded-lg border border-slate-700 text-xs font-bold">
+                <i class="fa-solid fa-receipt"></i> Details
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function openSaleDetailsModal(orderNumber) {
+      const order = transactions.find(t => t.orderNumber === orderNumber);
+      if (!order) return;
+
+      const receiptArea = document.getElementById('printableReceiptArea');
+      receiptArea.innerHTML = `
+        <div class="text-center pb-4 border-b border-dashed border-slate-700">
+          <h2 class="font-extrabold text-xl text-slate-950 tracking-wider uppercase">ANTIGRAVITY POS RETAIL</h2>
+          <p class="text-xs font-mono text-slate-600 mt-2">RECEIPT #${order.orderNumber}</p>
+        </div>
+        <div class="py-3 border-b border-dashed border-slate-700 text-xs space-y-2 text-slate-800">
+          ${order.items.map(item => `
+            <div class="flex justify-between">
+              <div>
+                <p class="font-bold text-slate-900">${item.productName}</p>
+                <p class="text-[10px] text-slate-500">${item.sku}</p>
+              </div>
+              <span class="font-bold text-slate-900">${item.quantity} x $${Number(item.unitPrice).toFixed(2)} = $${Number(item.subtotal).toFixed(2)}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div class="pt-2 flex justify-between font-black text-emerald-600 text-sm">
+          <span>Total Amount</span>
+          <span>$${Number(order.total).toFixed(2)}</span>
+        </div>
+      `;
+
+      // Configure dynamic refund button inside Details modal
+      const refundBtn = document.getElementById('saleDetailsRefundBtn');
+      if (order.status === 'REFUNDED') {
+        refundBtn.disabled = true;
+        refundBtn.textContent = 'Already Refunded';
+        refundBtn.className = 'flex-1 bg-slate-800 text-slate-500 font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs cursor-not-allowed';
+      } else {
+        refundBtn.disabled = false;
+        refundBtn.textContent = 'Issue Return / Refund';
+        refundBtn.className = 'flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2.5 rounded-xl flex items-center justify-center gap-2 text-xs';
+        refundBtn.onclick = () => {
+          closeSaleDetailsModal();
+          switchTab('returns');
+          document.getElementById('returnOrderLookupInput').value = order.orderNumber;
+          lookupOrderForReturn();
+        };
+      }
+
+      document.getElementById('saleDetailsModal').classList.remove('hidden');
+    }
+
+    function closeSaleDetailsModal() {
+      document.getElementById('saleDetailsModal').classList.add('hidden');
+    }
+
+    function updateAnalyticsViews() {
+      const activeSales = transactions.filter(t => t.status !== 'REFUNDED');
+      const totalSales = activeSales.reduce((sum, t) => sum + Number(t.total), 0);
+
+      document.getElementById('metricSales').textContent = `$${totalSales.toFixed(2)}`;
+      document.getElementById('metricOrders').textContent = activeSales.length;
+      document.getElementById('revGross').textContent = `$${totalSales.toFixed(2)}`;
+    }
+
+    function resetDemoData() {
+      if (confirm('Reset application state?')) {
+        localStorage.removeItem('pos_products');
+        localStorage.removeItem('pos_transactions');
+        localStorage.removeItem('pos_customers');
+        localStorage.removeItem('pos_held_sales');
+        products = [...INITIAL_PRODUCTS];
+        customers = [...INITIAL_CUSTOMERS];
+        transactions = [...INITIAL_TRANSACTIONS];
+        heldSales = [];
+        selectedCustomer = customers[0];
+        document.getElementById('selectedCustomerDisplay').textContent = selectedCustomer.name;
+        document.getElementById('selectedCustomerTier').textContent = selectedCustomer.tier;
+        updateHeldCartsBadge();
+        clearCart();
+        renderProducts();
+        renderSalesHistoryTable();
+        updateAnalyticsViews();
+      }
+    }
+  </script>
+</body>
+
+</html>
