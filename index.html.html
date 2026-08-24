@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)file:///C:/Users/DELL/Desktop/marwa%20gravity/Index.html -->
+<html lang="en" class="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenora Retail and POS - Modern Point of Sale Terminal</title>
+    <meta name="description" content="Zenora Retail and POS - A premium smart point of sale and inventory terminal.">
+    <!-- Google Fonts: Inter (Zenora brand font) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./Zenora Retail and POS - Modern Point of Sale Terminal_files/css2" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/saved_resource"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        display: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        zenora: {
+                            primary: '#123FA8',
+                            accent:  '#165DFF',
+                            dark:    '#071A4D',
+                            50:  '#EEF3FF',
+                            100: '#D6E0FE',
+                            200: '#B3C5FD',
+                            300: '#7F9BFB',
+                            400: '#4B6EF8',
+                            500: '#165DFF',
+                            600: '#123FA8',
+                            700: '#0E307F',
+                            800: '#071A4D',
+                            900: '#040E2A',
+                        },
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="./Zenora Retail and POS - Modern Point of Sale Terminal_files/all.min.css">
+
+    <!-- Anti-FOUC: apply saved theme before paint -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('zenora_theme') || 'dark';
+                document.documentElement.classList.toggle('dark', t === 'dark');
+                document.documentElement.classList.toggle('light', t === 'light');
+            } catch (e) {
+                document.documentElement.classList.add('dark');
+            }
+        })();
+    </script>
+
+    <style>
+        /* ── Zenora Design System ──────────────────────────────────── */
+        :root {
+            /* Zenora Brand */
+            --z-primary:   #123FA8;
+            --z-accent:    #165DFF;
+            --z-dark:      #071A4D;
+
+            /* Light Mode tokens */
+            --bg-base:     #FFFFFF;
+            --bg-surface:  #F0F4FF;
+            --bg-card:     #FFFFFF;
+            --bg-sidebar:  #F5F7FF;
+            --bg-header:   #FFFFFF;
+            --bg-input:    #F0F4FF;
+            --border:      #D6E0FE;
+            --border-soft: #E8EEFF;
+            --text-primary:   #071A4D;
+            --text-secondary: #3D5A99;
+            --text-muted:     #6B85B5;
+            --accent-glow:  rgba(22,93,255,0.12);
+        }
+
+        .dark {
+            /* Dark Mode tokens */
+            --bg-base:     #050505;
+            --bg-surface:  #0D1117;
+            --bg-card:     #111827;
+            --bg-sidebar:  #0A0F1C;
+            --bg-header:   #070B14;
+            --bg-input:    #0D1420;
+            --border:      rgba(18,63,168,0.35);
+            --border-soft: rgba(22,93,255,0.15);
+            --text-primary:   #EEF3FF;
+            --text-secondary: #B3C5FD;
+            --text-muted:     #5B72A8;
+            --accent-glow:  rgba(22,93,255,0.18);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            font-family: 'Inter', system-ui, sans-serif;
+            font-feature-settings: 'cv02','cv03','cv04','cv11';
+            overflow-x: hidden;
+            transition: background-color 0.25s ease, color 0.2s ease;
+        }
+
+        /* ── Scrollbar ─────────────────────────────────────── */
+        .custom-scrollbar::-webkit-scrollbar { width: 5px; height: 5px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 999px;
+        }
+
+        /* ── Glass Panels ──────────────────────────────────── */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(14px);
+            border: 1px solid var(--border);
+        }
+
+        /* ── Zenora Gradient Text ──────────────────────────── */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--z-accent) 0%, #7F9BFB 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* ── Header ────────────────────────────────────────── */
+        header {
+            background: var(--bg-header);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.25s ease;
+        }
+
+        /* ── Sidebar ───────────────────────────────────────── */
+        nav.sidebar {
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            transition: background 0.25s ease;
+        }
+
+        /* ── Nav Buttons ───────────────────────────────────── */
+        .nav-btn {
+            color: var(--text-muted);
+            transition: all 0.15s ease;
+        }
+        .nav-btn:hover {
+            background: var(--accent-glow);
+            color: var(--z-accent);
+        }
+        .nav-btn.active {
+            background: var(--accent-glow);
+            color: var(--z-accent);
+            font-weight: 700;
+        }
+
+        /* ── Cards ─────────────────────────────────────────── */
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.25s, border 0.25s;
+        }
+
+        .product-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 28px -6px var(--accent-glow);
+            border-color: var(--z-accent);
+        }
+        .product-card.in-cart {
+            border-color: var(--z-accent);
+            box-shadow: 0 0 0 2px rgba(22,93,255,0.25);
+        }
+
+        /* ── Search Input ──────────────────────────────────── */
+        .search-input {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 12px;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .search-input::placeholder { color: var(--text-muted); }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--z-accent);
+            box-shadow: 0 0 0 3px rgba(22,93,255,0.15);
+        }
+
+        /* ── Category Pills ────────────────────────────────── */
+        .cat-pill {
+            background: var(--bg-input);
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            border-radius: 9999px;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+        }
+        .cat-pill:hover { border-color: var(--z-accent); color: var(--z-accent); }
+        .cat-pill.active {
+            background: var(--z-accent);
+            border-color: var(--z-accent);
+            color: #fff;
+            font-weight: 700;
+            box-shadow: 0 4px 14px rgba(22,93,255,0.35);
+        }
+
+        /* ── Cart / Aside ──────────────────────────────────── */
+        .cart-aside {
+            background: var(--bg-sidebar);
+            border-left: 1px solid var(--border);
+            transition: background 0.25s;
+        }
+
+        /* ── Cart Item Row ─────────────────────────────────── */
+        .cart-item-row {
+            background: var(--bg-card);
+            border: 1px solid var(--border-soft);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.2s;
+        }
+
+        /* ── Summary Footer ────────────────────────────────── */
+        .cart-footer {
+            background: var(--bg-card);
+            border-top: 1px solid var(--border);
+        }
+
+        /* ── Modals ────────────────────────────────────────── */
+        .modal-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+        }
+        .modal-header { background: var(--bg-surface); border-bottom: 1px solid var(--border); }
+        .modal-inner  { background: var(--bg-surface); border-radius: 12px; border: 1px solid var(--border-soft); }
+
+        /* ── Buttons ───────────────────────────────────────── */
+        .btn-primary {
+            background: var(--z-accent);
+            color: #fff;
+            font-weight: 700;
+            border-radius: 12px;
+            transition: opacity 0.15s, box-shadow 0.15s;
+        }
+        .btn-primary:hover { opacity: 0.9; box-shadow: 0 6px 20px rgba(22,93,255,0.35); }
+        .btn-primary:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; box-shadow: none; }
+
+        .btn-ghost {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.15s ease;
+        }
+        .btn-ghost:hover { border-color: var(--z-accent); color: var(--z-accent); }
+
+        /* ── Disc pills ────────────────────────────────────── */
+        .disc-btn {
+            background: var(--bg-input);
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.15s;
+        }
+        .disc-btn.active {
+            background: var(--z-accent);
+            border-color: var(--z-accent);
+            color: #fff;
+        }
+
+        /* ── Pay method buttons ────────────────────────────── */
+        .pay-method-btn {
+            background: var(--bg-input);
+            border: 1px solid var(--border-soft);
+            color: var(--text-secondary);
+            border-radius: 12px;
+            transition: all 0.15s;
+        }
+        .pay-method-btn.active {
+            background: var(--z-accent);
+            border-color: var(--z-accent);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(22,93,255,0.3);
+        }
+
+        /* ── Theme Toggle ──────────────────────────────────── */
+        #themeToggleBtn {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            border-radius: 10px;
+            padding: 7px 12px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        #themeToggleBtn:hover {
+            border-color: var(--z-accent);
+            color: var(--z-accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        /* ── Misc views background ─────────────────────────── */
+        .view-bg { background: var(--bg-base); }
+        .view-bg-card { background: var(--bg-card); border: 1px solid var(--border); }
+        .view-title { color: var(--text-primary); }
+        .view-sub   { color: var(--text-muted); }
+        .input-styled {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            border-radius: 10px;
+        }
+        .input-styled:focus { outline: none; border-color: var(--z-accent); }
+        .input-styled::placeholder { color: var(--text-muted); }
+
+        /* ── User badge ────────────────────────────────────── */
+        .user-badge {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:Inter, system-ui, sans-serif;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.pointer-events-none{pointer-events:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.left-3{left:0.75rem}.left-4{left:1rem}.right-3{right:0.75rem}.top-1\/2{top:50%}.left-2{left:0.5rem}.top-2{top:0.5rem}.right-2{right:0.5rem}.z-10{z-index:10}.z-50{z-index:50}.mx-auto{margin-left:auto;margin-right:auto}.mb-1\.5{margin-bottom:0.375rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mt-1{margin-top:0.25rem}.mt-1\.5{margin-top:0.375rem}.mt-2{margin-top:0.5rem}.mt-8{margin-top:2rem}.mt-auto{margin-top:auto}.mt-3{margin-top:0.75rem}.mt-0\.5{margin-top:0.125rem}.line-clamp-2{overflow:hidden;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.flex{display:flex}.grid{display:grid}.hidden{display:none}.h-10{height:2.5rem}.h-11{height:2.75rem}.h-16{height:4rem}.h-2{height:0.5rem}.h-20{height:5rem}.h-6{height:1.5rem}.h-8{height:2rem}.h-9{height:2.25rem}.h-full{height:100%}.h-screen{height:100vh}.h-28{height:7rem}.w-1\/2{width:50%}.w-10{width:2.5rem}.w-11{width:2.75rem}.w-16{width:4rem}.w-2{width:0.5rem}.w-20{width:5rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-8{width:2rem}.w-9{width:2.25rem}.w-full{width:100%}.w-14{width:3.5rem}.min-w-0{min-width:0px}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.max-w-xs{max-width:20rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.-translate-y-1\/2{--tw-translate-y:-50%;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@keyframes pulse{50%{opacity:.5}}.animate-pulse{animation:pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite}.cursor-pointer{cursor:pointer}.select-none{-webkit-user-select:none;user-select:none}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.flex-col{flex-direction:column}.items-end{align-items:flex-end}.items-center{align-items:center}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1\.5{gap:0.375rem}.gap-2{gap:0.5rem}.gap-2\.5{gap:0.625rem}.gap-3{gap:0.75rem}.gap-3\.5{gap:0.875rem}.gap-1{gap:0.25rem}.space-y-1 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.25rem * var(--tw-space-y-reverse))}.space-y-1\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.375rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.375rem * var(--tw-space-y-reverse))}.space-y-2 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.5rem * var(--tw-space-y-reverse))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.whitespace-nowrap{white-space:nowrap}.rounded-2xl{border-radius:1rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-md{border-radius:0.375rem}.border{border-width:1px}.border-b{border-bottom-width:1px}.border-t{border-top-width:1px}.border-sky-500{--tw-border-opacity:1;border-color:rgb(14 165 233 / var(--tw-border-opacity, 1))}.border-slate-700{--tw-border-opacity:1;border-color:rgb(51 65 85 / var(--tw-border-opacity, 1))}.border-slate-700\/50{border-color:rgb(51 65 85 / 0.5)}.border-slate-800{--tw-border-opacity:1;border-color:rgb(30 41 59 / var(--tw-border-opacity, 1))}.border-slate-700\/80{border-color:rgb(51 65 85 / 0.8)}.border-red-500\/30{border-color:rgb(239 68 68 / 0.3)}.bg-\[\#0f172a\]{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-black\/80{background-color:rgb(0 0 0 / 0.8)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129 / var(--tw-bg-opacity, 1))}.bg-emerald-500\/20{background-color:rgb(16 185 129 / 0.2)}.bg-green-400{--tw-bg-opacity:1;background-color:rgb(74 222 128 / var(--tw-bg-opacity, 1))}.bg-sky-600{--tw-bg-opacity:1;background-color:rgb(2 132 199 / var(--tw-bg-opacity, 1))}.bg-slate-800{--tw-bg-opacity:1;background-color:rgb(30 41 59 / var(--tw-bg-opacity, 1))}.bg-slate-800\/50{background-color:rgb(30 41 59 / 0.5)}.bg-slate-900{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-slate-950{--tw-bg-opacity:1;background-color:rgb(2 6 23 / var(--tw-bg-opacity, 1))}.bg-slate-800\/90{background-color:rgb(30 41 59 / 0.9)}.bg-slate-950\/80{background-color:rgb(2 6 23 / 0.8)}.bg-red-500\/10{background-color:rgb(239 68 68 / 0.1)}.object-contain{object-fit:contain}.object-cover{object-fit:cover}.p-1{padding:0.25rem}.p-12{padding:3rem}.p-2{padding:0.5rem}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-5{padding:1.25rem}.p-6{padding:1.5rem}.p-2\.5{padding:0.625rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-2\.5{padding-left:0.625rem;padding-right:0.625rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-0\.5{padding-top:0.125rem;padding-bottom:0.125rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-1\.5{padding-top:0.375rem;padding-bottom:0.375rem}.py-16{padding-top:4rem;padding-bottom:4rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.py-4{padding-top:1rem;padding-bottom:1rem}.pb-1{padding-bottom:0.25rem}.pb-2{padding-bottom:0.5rem}.pb-4{padding-bottom:1rem}.pl-11{padding-left:2.75rem}.pl-7{padding-left:1.75rem}.pr-1{padding-right:0.25rem}.pr-28{padding-right:7rem}.pr-3{padding-right:0.75rem}.pt-1{padding-top:0.25rem}.pt-2{padding-top:0.5rem}.text-left{text-align:left}.text-center{text-align:center}.text-right{text-align:right}.font-display{font-family:Inter, system-ui, sans-serif}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-5xl{font-size:3rem;line-height:1}.text-\[10px\]{font-size:10px}.text-\[11px\]{font-size:11px}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-tight{line-height:1.25}.tracking-tight{letter-spacing:-0.025em}.tracking-wider{letter-spacing:0.05em}.text-amber-400{--tw-text-opacity:1;color:rgb(251 191 36 / var(--tw-text-opacity, 1))}.text-emerald-400{--tw-text-opacity:1;color:rgb(52 211 153 / var(--tw-text-opacity, 1))}.text-sky-400{--tw-text-opacity:1;color:rgb(56 189 248 / var(--tw-text-opacity, 1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225 / var(--tw-text-opacity, 1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184 / var(--tw-text-opacity, 1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139 / var(--tw-text-opacity, 1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sky-600\/20{--tw-shadow-color:rgb(2 132 199 / 0.2);--tw-shadow:var(--tw-shadow-colored)}.shadow-sky-600\/30{--tw-shadow-color:rgb(2 132 199 / 0.3);--tw-shadow:var(--tw-shadow-colored)}.ring-1{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.ring-sky-500{--tw-ring-opacity:1;--tw-ring-color:rgb(14 165 233 / var(--tw-ring-opacity, 1))}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.hover\:bg-emerald-400:hover{--tw-bg-opacity:1;background-color:rgb(52 211 153 / var(--tw-bg-opacity, 1))}.hover\:bg-sky-500:hover{--tw-bg-opacity:1;background-color:rgb(14 165 233 / var(--tw-bg-opacity, 1))}.hover\:bg-slate-700:hover{--tw-bg-opacity:1;background-color:rgb(51 65 85 / var(--tw-bg-opacity, 1))}.hover\:bg-red-500\/20:hover{background-color:rgb(239 68 68 / 0.2)}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.focus\:border-sky-500:focus{--tw-border-opacity:1;border-color:rgb(14 165 233 / var(--tw-border-opacity, 1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:flex{display:flex}.sm\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}}@media (min-width: 768px){.md\:inline{display:inline}.md\:flex{display:flex}.md\:w-\[380px\]{width:380px}.md\:flex-row{flex-direction:row}.md\:border-t-0{border-top-width:0px}}@media (min-width: 1024px){.lg\:block{display:block}.lg\:flex{display:flex}.lg\:w-56{width:14rem}.lg\:w-\[420px\]{width:420px}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.lg\:p-6{padding:1.5rem}}</style></head>
+
+<body class="h-screen flex flex-col antialiased select-none">
+
+    <!-- TOP TERMINAL HEADER -->
+    <header class="px-6 py-3 flex items-center justify-between flex-shrink-0" style="background:var(--bg-header);border-bottom:1px solid var(--border);">
+        <!-- Logo + Brand Name: top-left -->
+        <div class="flex items-center gap-3">
+            <!-- Zenora Logo — swaps between dark and light variants -->
+            <div id="logoWrap" class="w-11 h-11 rounded-2xl overflow-hidden flex-shrink-0" style="box-shadow: rgba(22, 93, 255, 0.35) 0px 4px 18px; border: 1px solid rgba(22, 93, 255, 0.3); background: rgb(255, 255, 255);">
+                <!-- Dark mode logo (black bg, shows in dark mode) -->
+                <img id="logoDark" src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/zenora-logo-dark.png" alt="Zenora Logo" class="w-full h-full object-contain" style="display: none;">
+                <!-- Light mode logo (white bg, shows in light mode) -->
+                <img id="logoLight" src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/zenora-logo-light.png" alt="Zenora Logo" class="w-full h-full object-contain" style="display: block;">
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="font-display text-xl font-bold tracking-tight" style="color:var(--text-primary)">
+                        Zenora <span style="color:var(--z-accent)">Retail</span> and POS
+                    </h1>
+                    <span style="background:rgba(22,93,255,0.1);border:1px solid rgba(22,93,255,0.3);color:var(--z-accent);" class="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+                        Register #01
+                    </span>
+                </div>
+                <p class="text-xs" style="color:var(--text-muted)">Smart Point of Sale &amp; Inventory Terminal</p>
+            </div>
+        </div>
+
+        <!-- Right Header Actions -->
+        <div class="flex items-center gap-3">
+            <!-- Live Clock -->
+            <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs" style="background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);">
+                <i class="fa-regular fa-clock" style="color:var(--text-muted)"></i>
+                <span id="liveClock" class="font-medium">07:41:37 PM | Aug 24</span>
+            </div>
+
+            <!-- Online Status -->
+            <div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold" style="background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);color:#22c55e;">
+                <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                Online
+            </div>
+
+            <!-- 🌗 Dark / Light Mode Toggle -->
+            <button id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Light / Dark Mode">
+                <i id="themeIcon" class="fa-solid fa-sun"></i>
+                <span id="themeLabel">Light</span>
+            </button>
+
+            <!-- Reset Button -->
+            <button onclick="resetApplicationData()" title="Reset Sample Catalog &amp; Stats" class="p-2 rounded-lg transition" style="background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary);">
+                <i class="fa-solid fa-rotate-right text-sm" style="color:var(--z-accent)"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN POS LAYOUT -->
+    <div class="flex-1 flex overflow-hidden">
+
+        <!-- SIDEBAR NAVIGATION -->
+        <nav class="sidebar w-16 lg:w-56 flex flex-col py-4 flex-shrink-0 z-10 hidden md:flex">
+            <div class="px-3 space-y-1">
+                <p class="px-3 text-[10px] font-bold uppercase tracking-wider mb-2 hidden lg:block" style="color:var(--text-muted)">Main Menu</p>
+                <button onclick="switchView(&#39;pos&#39;)" id="nav-pos" class="nav-btn active w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold transition">
+                    <i class="fa-solid fa-cash-register w-5 text-center"></i>
+                    <span class="hidden lg:block text-sm">POS Terminal</span>
+                </button>
+                <button onclick="switchView(&#39;register&#39;)" id="nav-register" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition">
+                    <i class="fa-solid fa-cash-register w-5 text-center"></i>
+                    <span class="hidden lg:block text-sm">Register / Till</span>
+                </button>
+                <button onclick="switchView(&#39;customers&#39;)" id="nav-customers" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition">
+                    <i class="fa-solid fa-users w-5 text-center"></i>
+                    <span class="hidden lg:block text-sm">Customers</span>
+                </button>
+                <button onclick="switchView(&#39;returns&#39;)" id="nav-returns" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition">
+                    <i class="fa-solid fa-arrow-rotate-left w-5 text-center"></i>
+                    <span class="hidden lg:block text-sm">Returns</span>
+                </button>
+                <button onclick="switchView(&#39;reports&#39;)" id="nav-reports" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition">
+                    <i class="fa-solid fa-chart-line w-5 text-center"></i>
+                    <span class="hidden lg:block text-sm">Reports</span>
+                </button>
+                <button onclick="switchView(&#39;settings&#39;)" id="nav-settings" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl font-medium transition mt-8">
+                    <i class="fa-solid fa-gear w-5 text-center"></i>
+                    <span class="hidden lg:block text-sm">Settings</span>
+                </button>
+            </div>
+            <div class="mt-auto px-4 pb-2">
+                <div class="user-badge flex items-center gap-3 p-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center hidden lg:flex" style="background:var(--z-primary);color:#fff;">
+                        <i class="fa-solid fa-user-tie text-xs"></i>
+                    </div>
+                    <div class="hidden lg:block">
+                        <p class="text-xs font-bold leading-tight" style="color:var(--text-primary)">Admin User</p>
+                        <p class="text-[10px]" style="color:var(--text-muted)">Store Manager</p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- VIEW CONTAINER -->
+        <div class="flex-1 relative overflow-hidden" style="background:var(--bg-base)">
+            
+            <!-- POS VIEW (Active) -->
+            <div id="view-pos" class="absolute inset-0 flex flex-col md:flex-row app-view">
+
+                <!-- LEFT PANE: METRICS, SEARCH, CATEGORIES, PRODUCT CATALOG -->
+                <main class="flex-1 flex flex-col overflow-hidden p-4 lg:p-6 space-y-4">
+
+            <!-- 1. POS DASHBOARD METRICS BAR -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 flex-shrink-0">
+                <!-- Sales Today -->
+                <div class="metric-card">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider" style="color:var(--text-muted)">Today's Sales</p>
+                        <h3 id="metricSales" class="text-2xl font-extrabold mt-1" style="color:var(--text-primary)">$181.44</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(22,93,255,0.1);color:var(--z-accent)">
+                        <i class="fa-solid fa-dollar-sign text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Orders Count -->
+                <div class="metric-card">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider" style="color:var(--text-muted)">Total Orders</p>
+                        <h3 id="metricOrders" class="text-2xl font-extrabold mt-1" style="color:var(--text-primary)">20</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(34,197,94,0.1);color:#22c55e">
+                        <i class="fa-solid fa-bag-shopping text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Items Sold -->
+                <div class="metric-card">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider" style="color:var(--text-muted)">Items Sold</p>
+                        <h3 id="metricItems" class="text-2xl font-extrabold mt-1" style="color:var(--text-primary)">49</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(168,85,247,0.1);color:#a855f7">
+                        <i class="fa-solid fa-box-open text-lg"></i>
+                    </div>
+                </div>
+
+                <!-- Low Stock Alert -->
+                <div class="metric-card">
+                    <div>
+                        <p class="text-[11px] font-bold uppercase tracking-wider" style="color:var(--text-muted)">Low Stock Alert</p>
+                        <h3 id="metricLowStock" class="text-2xl font-extrabold mt-1" style="color:#f59e0b">1 item</h3>
+                    </div>
+                    <div class="w-10 h-10 rounded-lg flex items-center justify-center" style="background:rgba(245,158,11,0.1);color:#f59e0b">
+                        <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. PRODUCT SEARCH BAR -->
+            <div class="relative flex items-center flex-shrink-0">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 text-sm pointer-events-none" style="color:var(--z-accent)"></i>
+                <input type="text" id="searchInput" oninput="handleSearchInput(this.value)" placeholder="Search products by Name, SKU, or Barcode..." class="search-input w-full pl-11 pr-28 py-3 text-sm">
+                <div class="absolute right-3 flex items-center gap-2">
+                    <button id="clearSearchBtn" onclick="clearSearch()" class="hidden rounded-full w-6 h-6 flex items-center justify-center text-xs" style="background:var(--bg-input);color:var(--text-muted);border:1px solid var(--border)">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                    <span id="productCountBadge" class="text-xs font-bold px-2.5 py-1 rounded-lg" style="background:rgba(22,93,255,0.1);color:var(--z-accent)">10 Products</span>
+                </div>
+            </div>
+
+            <!-- 3. CATEGORY FILTERS -->
+            <div id="categoryContainer" class="flex items-center gap-2 overflow-x-auto custom-scrollbar pb-1 flex-shrink-0">
+          <button onclick="selectCategory(&#39;All&#39;)" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border bg-sky-600 text-white border-sky-500 shadow-md shadow-sky-600/20">
+            <i class="fa-solid fa-border-all"></i>
+            <span>All</span>
+          </button>
+        
+          <button onclick="selectCategory(&#39;Beverages&#39;)" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border bg-slate-800 text-slate-300 border-slate-700/80 hover:bg-slate-700">
+            <i class="fa-solid fa-mug-hot"></i>
+            <span>Beverages</span>
+          </button>
+        
+          <button onclick="selectCategory(&#39;Bakery&#39;)" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border bg-slate-800 text-slate-300 border-slate-700/80 hover:bg-slate-700">
+            <i class="fa-solid fa-cookie"></i>
+            <span>Bakery</span>
+          </button>
+        
+          <button onclick="selectCategory(&#39;Snacks&#39;)" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border bg-slate-800 text-slate-300 border-slate-700/80 hover:bg-slate-700">
+            <i class="fa-solid fa-utensils"></i>
+            <span>Snacks</span>
+          </button>
+        
+          <button onclick="selectCategory(&#39;Produce&#39;)" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border bg-slate-800 text-slate-300 border-slate-700/80 hover:bg-slate-700">
+            <i class="fa-solid fa-apple-whole"></i>
+            <span>Produce</span>
+          </button>
+        
+          <button onclick="selectCategory(&#39;Dairy&#39;)" class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border bg-slate-800 text-slate-300 border-slate-700/80 hover:bg-slate-700">
+            <i class="fa-solid fa-cow"></i>
+            <span>Dairy</span>
+          </button>
+        </div>
+
+            <!-- 4. PRODUCT CATALOG GRID -->
+            <div class="flex-1 overflow-y-auto custom-scrollbar pr-1">
+                <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3.5">
+          <div class="product-card bg-slate-800/90 border border-sky-500 ring-1 ring-sky-500 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1510591509098-f4fdc6d0ff04" alt="Artisan Espresso" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                BEV-001
+              </span>
+              
+                <span class="absolute top-2 right-2 bg-sky-600 text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
+                  1
+                </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Beverages</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Artisan Espresso</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$3.50</span>
+                <button onclick="addToCart(&#39;1&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Added</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-sky-500 ring-1 ring-sky-500 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1517701604599-bb29b565090c" alt="Iced Vanilla Oat Latte" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                BEV-002
+              </span>
+              
+                <span class="absolute top-2 right-2 bg-sky-600 text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
+                  1
+                </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Beverages</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Iced Vanilla Oat Latte</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$5.25</span>
+                <button onclick="addToCart(&#39;2&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Added</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-sky-500 ring-1 ring-sky-500 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1536256263959-770b48d82b0a" alt="Matcha Green Tea Latte" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                BEV-003
+              </span>
+              
+                <span class="absolute top-2 right-2 bg-sky-600 text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
+                  1
+                </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Beverages</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Matcha Green Tea Latte</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$5.75</span>
+                <button onclick="addToCart(&#39;3&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Added</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-sky-500 ring-1 ring-sky-500 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1555507036-ab1f4038808a" alt="Freshly Baked Croissant" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                BAK-001
+              </span>
+              
+                <span class="absolute top-2 right-2 bg-sky-600 text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
+                  1
+                </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Bakery</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Freshly Baked Croissant</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$3.25</span>
+                <button onclick="addToCart(&#39;4&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-check"></i>
+                  <span>Added</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1588137378633-dea1336ce1e2" alt="Avocado Toast &amp; Sourdough" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                BAK-002
+              </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Bakery</span>
+                  
+                    <span class="text-[10px] font-semibold text-amber-400 flex items-center gap-1">
+                      <i class="fa-solid fa-triangle-exclamation"></i> Low (4)
+                    </span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Avocado Toast &amp; Sourdough</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$8.50</span>
+                <button onclick="addToCart(&#39;5&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1499636136210-6f4ee915583e" alt="Chocolate Chip Cookie" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                BAK-003
+              </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Bakery</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Chocolate Chip Cookie</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$2.75</span>
+                <button onclick="addToCart(&#39;6&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1528735602780-2552fd46c7af" alt="Smoked Turkey Sandwich" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                SNK-001
+              </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Snacks</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Smoked Turkey Sandwich</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$9.75</span>
+                <button onclick="addToCart(&#39;7&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1488477181946-6428a0291777" alt="Organic Granola Bowl" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                SNK-002
+              </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Snacks</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Organic Granola Bowl</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$6.95</span>
+                <button onclick="addToCart(&#39;8&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1560806887-1e4cd0b6cbd6" alt="Fresh Fuji Apple" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                PRD-001
+              </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Produce</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Fresh Fuji Apple</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$1.50</span>
+                <button onclick="addToCart(&#39;9&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        
+          <div class="product-card bg-slate-800/90 border border-slate-700/80 rounded-2xl overflow-hidden flex flex-col justify-between relative ">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1563636619-e9143da7973b" alt="Organic Whole Milk 1L" class="w-full h-full object-cover">
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                DRY-001
+              </span>
+              
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">Dairy</span>
+                  
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">Organic Whole Milk 1L</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$4.10</span>
+                <button onclick="addToCart(&#39;10&#39;)" class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Add</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+                <div id="noProductsMessage" class="hidden flex-col items-center justify-center py-16 text-center">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mb-3 text-2xl" style="background:var(--bg-surface);color:var(--text-muted)">
+                        <i class="fa-solid fa-box-archive"></i>
+                    </div>
+                    <h4 class="text-lg font-bold" style="color:var(--text-primary)">No Products Found</h4>
+                    <p class="text-xs mt-1 max-w-sm" style="color:var(--text-muted)">No items match your query. Try searching another product name, SKU or select a different category.</p>
+                </div>
+            </div>
+        </main>
+
+        <!-- RIGHT PANE: ACTIVE CART DRAWER -->
+        <aside class="cart-aside w-full md:w-[380px] lg:w-[420px] border-t md:border-t-0 flex flex-col flex-shrink-0">
+
+            <!-- Cart Header -->
+            <div class="p-4 border-b flex items-center justify-between" style="background:var(--bg-card);border-color:var(--border)">
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:rgba(22,93,255,0.1);color:var(--z-accent)">
+                        <i class="fa-solid fa-cart-shopping text-base"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-base" style="color:var(--text-primary)">Active POS Order</h2>
+                        <p id="cartItemsCountText" class="text-xs" style="color:var(--text-muted)">4 items in cart</p>
+                    </div>
+                </div>
+
+                <!-- CART ACTIONS -->
+                <div class="flex items-center gap-2">
+                    <button id="holdCartBtn" class="items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition flex" title="Hold Sale" style="background:var(--bg-input);border:1px solid var(--border);color:var(--text-secondary)">
+                        <i class="fa-solid fa-pause text-xs"></i>
+                        <span class="hidden md:inline">Hold</span>
+                    </button>
+                    <button id="clearCartBtn" onclick="clearCart()" class="items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg transition flex" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#ef4444">
+                        <i class="fa-regular fa-trash-can text-xs"></i>
+                        <span class="hidden md:inline">Clear</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Customer Selector Bar -->
+            <div class="px-4 py-2 border-b flex items-center justify-between text-xs cursor-pointer transition group" onclick="switchView(&#39;customers&#39;)" style="background:var(--bg-surface);border-color:var(--border)">
+                <div class="flex items-center gap-2" style="color:var(--text-secondary)">
+                    <i class="fa-solid fa-user-check" style="color:#22c55e"></i>
+                    <span class="font-medium">Walk-in Customer</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="font-semibold" style="color:var(--z-accent)">Guest #1042</span>
+                    <i class="fa-solid fa-chevron-right text-[10px]" style="color:var(--text-muted)"></i>
+                </div>
+            </div>
+
+            <!-- Cart Items List -->
+            <div id="cartItemsContainer" class="flex-1 overflow-y-auto custom-scrollbar p-3 space-y-2">
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2">
+            <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1536256263959-770b48d82b0a" alt="Matcha Green Tea Latte" class="w-10 h-10 rounded-lg object-cover bg-slate-800">
+            
+            <div class="flex-1 min-w-0">
+              <h5 class="font-bold text-white text-xs truncate">Matcha Green Tea Latte</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5">$5.75 x 1</p>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center bg-slate-900 rounded-lg border border-slate-800">
+              <button onclick="updateCartQuantity(&#39;3&#39;, -1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="px-2 text-xs font-bold text-white">1</span>
+              <button onclick="updateCartQuantity(&#39;3&#39;, 1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+
+            <!-- Subtotal -->
+            <span class="font-extrabold text-emerald-400 text-xs w-14 text-right">$5.75</span>
+
+            <!-- EXPLICIT REMOVE PRODUCT BUTTON (Requirement #4) -->
+            <button onclick="removeProductFromCart(&#39;3&#39;)" title="Remove Product" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-lg border border-red-500/30 transition">
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2">
+            <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1555507036-ab1f4038808a" alt="Freshly Baked Croissant" class="w-10 h-10 rounded-lg object-cover bg-slate-800">
+            
+            <div class="flex-1 min-w-0">
+              <h5 class="font-bold text-white text-xs truncate">Freshly Baked Croissant</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5">$3.25 x 1</p>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center bg-slate-900 rounded-lg border border-slate-800">
+              <button onclick="updateCartQuantity(&#39;4&#39;, -1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="px-2 text-xs font-bold text-white">1</span>
+              <button onclick="updateCartQuantity(&#39;4&#39;, 1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+
+            <!-- Subtotal -->
+            <span class="font-extrabold text-emerald-400 text-xs w-14 text-right">$3.25</span>
+
+            <!-- EXPLICIT REMOVE PRODUCT BUTTON (Requirement #4) -->
+            <button onclick="removeProductFromCart(&#39;4&#39;)" title="Remove Product" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-lg border border-red-500/30 transition">
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2">
+            <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1517701604599-bb29b565090c" alt="Iced Vanilla Oat Latte" class="w-10 h-10 rounded-lg object-cover bg-slate-800">
+            
+            <div class="flex-1 min-w-0">
+              <h5 class="font-bold text-white text-xs truncate">Iced Vanilla Oat Latte</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5">$5.25 x 1</p>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center bg-slate-900 rounded-lg border border-slate-800">
+              <button onclick="updateCartQuantity(&#39;2&#39;, -1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="px-2 text-xs font-bold text-white">1</span>
+              <button onclick="updateCartQuantity(&#39;2&#39;, 1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+
+            <!-- Subtotal -->
+            <span class="font-extrabold text-emerald-400 text-xs w-14 text-right">$5.25</span>
+
+            <!-- EXPLICIT REMOVE PRODUCT BUTTON (Requirement #4) -->
+            <button onclick="removeProductFromCart(&#39;2&#39;)" title="Remove Product" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-lg border border-red-500/30 transition">
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2">
+            <img src="./Zenora Retail and POS - Modern Point of Sale Terminal_files/photo-1510591509098-f4fdc6d0ff04" alt="Artisan Espresso" class="w-10 h-10 rounded-lg object-cover bg-slate-800">
+            
+            <div class="flex-1 min-w-0">
+              <h5 class="font-bold text-white text-xs truncate">Artisan Espresso</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5">$3.50 x 1</p>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center bg-slate-900 rounded-lg border border-slate-800">
+              <button onclick="updateCartQuantity(&#39;1&#39;, -1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="px-2 text-xs font-bold text-white">1</span>
+              <button onclick="updateCartQuantity(&#39;1&#39;, 1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+
+            <!-- Subtotal -->
+            <span class="font-extrabold text-emerald-400 text-xs w-14 text-right">$3.50</span>
+
+            <!-- EXPLICIT REMOVE PRODUCT BUTTON (Requirement #4) -->
+            <button onclick="removeProductFromCart(&#39;1&#39;)" title="Remove Product" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-lg border border-red-500/30 transition">
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        </div>
+
+            <!-- Empty Cart Graphic -->
+            <div id="emptyCartView" class="flex-1 flex-col items-center justify-center p-6 text-center hidden">
+                <div class="w-20 h-20 rounded-full flex items-center justify-center mb-4 text-3xl" style="background:var(--bg-surface);color:var(--text-muted)">
+                    <i class="fa-solid fa-cart-arrow-down"></i>
+                </div>
+                <h3 class="font-bold text-base" style="color:var(--text-primary)">Cart is Empty</h3>
+                <p class="text-xs mt-1.5 max-w-xs" style="color:var(--text-muted)">Select products from the catalog on the left to add items to this active POS transaction.</p>
+            </div>
+
+            <!-- Financial Calculations & Checkout Footer -->
+            <div class="cart-footer p-4 space-y-3">
+
+                <!-- Discount Selector -->
+                <div>
+                    <div class="flex items-center justify-between text-[11px] font-bold uppercase tracking-wider mb-1.5" style="color:var(--text-muted)">
+                        <span>Apply Discount</span>
+                        <span id="discountBadgeText" style="color:#f59e0b">0%</span>
+                    </div>
+                    <div class="grid grid-cols-4 gap-1.5">
+                        <button onclick="setDiscount(0)" id="disc-0" class="disc-btn active text-xs py-1.5 transition">None</button>
+                        <button onclick="setDiscount(5)" id="disc-5" class="disc-btn text-xs py-1.5 transition">5%</button>
+                        <button onclick="setDiscount(10)" id="disc-10" class="disc-btn text-xs py-1.5 transition">10%</button>
+                        <button onclick="setDiscount(15)" id="disc-15" class="disc-btn text-xs py-1.5 transition">15%</button>
+                    </div>
+                </div>
+
+                <!-- Line Breakdown -->
+                <div class="space-y-1.5 text-xs pt-1">
+                    <div class="flex justify-between">
+                        <span style="color:var(--text-muted)">Subtotal</span>
+                        <span id="summarySubtotal" class="font-semibold" style="color:var(--text-primary)">$17.75</span>
+                    </div>
+                    <div id="discountRow" class="hidden justify-between" style="color:#f59e0b">
+                        <span>Discount (<span id="summaryDiscountRate">0</span>%)</span>
+                        <span id="summaryDiscountAmount">-$0.00</span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span style="color:var(--text-muted)">Estimated Tax (8%)</span>
+                        <span id="summaryTax" class="font-semibold" style="color:var(--text-primary)">$1.42</span>
+                    </div>
+                    <div class="flex justify-between items-center pt-2 mt-2" style="border-top:1px solid var(--border)">
+                        <span class="font-bold text-base" style="color:var(--text-primary)">Total Amount</span>
+                        <span id="summaryTotal" class="font-extrabold text-2xl" style="color:#22c55e">$19.17</span>
+                    </div>
+                </div>
+
+                <!-- Checkout Button -->
+                <button id="checkoutBtn" onclick="openCheckoutModal()" class="btn-primary w-full py-3.5 flex items-center justify-center gap-2 text-base">
+                    <span>Pay $19.17</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </aside>
+
+            </div> <!-- END POS VIEW -->
+
+            <!-- MOCKUP VIEWS -->
+            
+            <!-- Customers View -->
+            <div id="view-customers" class="hidden absolute inset-0 flex flex-col p-6 app-view overflow-y-auto" style="background:var(--bg-base)">
+                <div class="flex justify-between items-end pb-4 mb-6" style="border-bottom:1px solid var(--border)">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color:var(--text-primary)">Customer Database</h2>
+                        <p class="text-sm mt-1" style="color:var(--text-muted)">Manage loyalty members, purchase history, and store credits.</p>
+                    </div>
+                    <button class="btn-primary py-2 px-4 flex items-center gap-2">
+                        <i class="fa-solid fa-plus"></i> Add Customer
+                    </button>
+                </div>
+                <div class="view-bg-card rounded-xl flex-1 flex flex-col items-center justify-center p-12 text-center">
+                    <i class="fa-solid fa-users text-5xl mb-4" style="color:var(--text-muted)"></i>
+                    <h3 class="text-xl font-bold" style="color:var(--text-primary)">Customer Management</h3>
+                    <p class="mt-2 max-w-md text-sm" style="color:var(--text-muted)">CRM Customer Master integration — loyalty points, purchase history, and quick customer creation.</p>
+                </div>
+            </div>
+
+            <!-- Returns View -->
+            <div id="view-returns" class="hidden absolute inset-0 flex flex-col p-6 app-view overflow-y-auto" style="background:var(--bg-base)">
+                <div class="flex justify-between items-end pb-4 mb-6" style="border-bottom:1px solid var(--border)">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color:var(--text-primary)">Returns &amp; Refunds</h2>
+                        <p class="text-sm mt-1" style="color:var(--text-muted)">Process customer returns and exchange transactions.</p>
+                    </div>
+                </div>
+                <div class="view-bg-card rounded-xl flex-1 flex flex-col items-center justify-center p-12 text-center">
+                    <i class="fa-solid fa-arrow-rotate-left text-5xl mb-4" style="color:var(--text-muted)"></i>
+                    <h3 class="text-xl font-bold" style="color:var(--text-primary)">Returns Processing</h3>
+                    <p class="mt-2 max-w-md text-sm" style="color:var(--text-muted)">Search original transactions, select items to return, calculate refunds or issue store credit.</p>
+                </div>
+            </div>
+
+            <!-- Register View -->
+            <div id="view-register" class="hidden absolute inset-0 flex flex-col p-6 app-view overflow-y-auto" style="background:var(--bg-base)">
+                <div class="flex justify-between items-end pb-4 mb-6" style="border-bottom:1px solid var(--border)">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color:var(--text-primary)">Register Management</h2>
+                        <p class="text-sm mt-1" style="color:var(--text-muted)">Manage cash drawer and cashier shifts.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="btn-ghost py-2 px-4">Cash In/Out</button>
+                        <button class="py-2 px-4 rounded-xl font-bold" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.25);color:#ef4444">Close Register</button>
+                    </div>
+                </div>
+                <div class="view-bg-card rounded-xl flex-1 flex flex-col items-center justify-center p-12 text-center">
+                    <i class="fa-solid fa-cash-register text-5xl mb-4" style="color:var(--text-muted)"></i>
+                    <h3 class="text-xl font-bold" style="color:var(--text-primary)">Till &amp; Register</h3>
+                    <p class="mt-2 max-w-md text-sm" style="color:var(--text-muted)">Tracks expected vs actual cash, starting floats, and shift closure discrepancies.</p>
+                </div>
+            </div>
+
+            <!-- Reports View -->
+            <div id="view-reports" class="hidden absolute inset-0 flex flex-col p-6 app-view overflow-y-auto" style="background:var(--bg-base)">
+                <div class="flex justify-between items-end pb-4 mb-6" style="border-bottom:1px solid var(--border)">
+                    <div>
+                        <h2 class="text-2xl font-bold" style="color:var(--text-primary)">Sales &amp; Analytics</h2>
+                        <p class="text-sm mt-1" style="color:var(--text-muted)">Daily sales, category breakdowns, and performance.</p>
+                    </div>
+                </div>
+                <div class="view-bg-card rounded-xl flex-1 flex flex-col items-center justify-center p-12 text-center">
+                    <i class="fa-solid fa-chart-pie text-5xl mb-4" style="color:var(--text-muted)"></i>
+                    <h3 class="text-xl font-bold" style="color:var(--text-primary)">Reporting Engine</h3>
+                    <p class="mt-2 max-w-md text-sm" style="color:var(--text-muted)">End-of-Day reports, tax collected, best-selling products, and payment method breakdowns.</p>
+                </div>
+            </div>
+            
+            <!-- Settings View -->
+            <div id="view-settings" class="hidden absolute inset-0 flex flex-col bg-[#0f172a] p-6 app-view overflow-y-auto">
+                <div class="flex justify-between items-end border-b border-slate-800 pb-4 mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white">POS Configuration</h2>
+                        <p class="text-sm text-slate-400 mt-1">Store details, receipt formatting, and device settings.</p>
+                    </div>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl flex-1 flex flex-col items-center justify-center p-12 text-center text-slate-500">
+                    <i class="fa-solid fa-sliders text-5xl mb-4 text-slate-700"></i>
+                    <h3 class="text-xl font-bold text-white">Settings Menu UI Placeholder</h3>
+                    <p class="mt-2 max-w-md text-sm">Configure multi-store connections, terminal hardware (printers/scanners), invoice numbering, and admin roles here.</p>
+                </div>
+            </div>
+
+        </div> <!-- END VIEW CONTAINER -->
+    </div> <!-- END MAIN LAYOUT -->
+
+    <!-- CHECKOUT PAYMENT MODAL -->
+    <div id="checkoutModal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="w-full max-w-md bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+
+            <!-- Modal Header -->
+            <div class="p-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+                <h3 id="modalTitle" class="font-bold text-lg text-white">Complete POS Transaction</h3>
+                <button onclick="closeCheckoutModal()" class="text-slate-400 hover:text-white p-1">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Payment Selection View -->
+            <div id="paymentSelectionView" class="p-5 space-y-4">
+                <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Select Payment Method</p>
+
+                <div class="grid grid-cols-3 gap-2.5">
+                    <button onclick="selectPaymentMethod(&#39;CASH&#39;)" id="pay-CASH" class="pay-method-btn active bg-sky-600 text-white border-sky-500 p-3 rounded-xl border flex flex-col items-center gap-2 transition">
+                        <i class="fa-solid fa-money-bill-wave text-xl"></i>
+                        <span class="text-xs font-bold">Cash</span>
+                    </button>
+                    <button onclick="selectPaymentMethod(&#39;CARD&#39;)" id="pay-CARD" class="pay-method-btn bg-slate-800 text-slate-300 border-slate-700 p-3 rounded-xl border flex flex-col items-center gap-2 transition hover:bg-slate-700">
+                        <i class="fa-solid fa-credit-card text-xl"></i>
+                        <span class="text-xs font-bold">Credit Card</span>
+                    </button>
+                    <button onclick="selectPaymentMethod(&#39;QR&#39;)" id="pay-QR" class="pay-method-btn bg-slate-800 text-slate-300 border-slate-700 p-3 rounded-xl border flex flex-col items-center gap-2 transition hover:bg-slate-700">
+                        <i class="fa-solid fa-qrcode text-xl"></i>
+                        <span class="text-xs font-bold">QR Pay</span>
+                    </button>
+                </div>
+
+                <!-- Dynamic Payment Fields -->
+                <div id="dynamicPaymentFields" class="bg-slate-800/50 p-3 rounded-xl border border-slate-700/50 space-y-3">
+                    <!-- Cash Fields -->
+                    <div id="cashFields" class="space-y-2">
+                        <div class="flex items-center justify-between">
+                            <label class="text-xs font-bold text-slate-400">Amount Received</label>
+                            <div class="relative w-1/2">
+                                <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                                <input type="number" id="cashReceivedInput" oninput="calculateChange()" placeholder="0.00" class="w-full bg-slate-900 border border-slate-700 rounded-lg pl-7 pr-3 py-2 text-right text-sm text-white font-bold focus:outline-none focus:border-sky-500">
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2 border-t border-slate-700/50">
+                            <label class="text-xs font-bold text-slate-400">Change Due</label>
+                            <span id="cashChangeDue" class="text-base font-extrabold text-amber-400">$0.00</span>
+                        </div>
+                    </div>
+                    <!-- Reference Fields -->
+                    <div id="referenceFields" class="hidden space-y-2">
+                        <label class="text-xs font-bold text-slate-400">Payment Reference (Optional)</label>
+                        <input type="text" id="paymentReferenceInput" placeholder="e.g. TXN-12345678" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <!-- Total Review Box -->
+                <div class="bg-slate-950 p-4 rounded-xl space-y-2 border border-slate-800 text-xs">
+                    <div class="flex justify-between text-slate-400">
+                        <span>Total Line Items</span>
+                        <span id="modalItemsCount" class="font-semibold text-white">0</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400">
+                        <span>Subtotal</span>
+                        <span id="modalSubtotal" class="font-semibold text-white">$0.00</span>
+                    </div>
+                    <div class="flex justify-between text-slate-400">
+                        <span>Tax &amp; Discounts</span>
+                        <span id="modalAdjustments" class="font-semibold text-white">$0.00</span>
+                    </div>
+                    <div class="border-t border-slate-800 pt-2 flex justify-between items-center text-sm">
+                        <span class="font-bold text-white">Total Amount Due</span>
+                        <span id="modalTotal" class="font-extrabold text-xl text-emerald-400">$0.00</span>
+                    </div>
+                </div>
+
+                <button onclick="processFinalPayment()" class="w-full bg-emerald-500 hover:bg-emerald-400 text-white font-extrabold py-3.5 rounded-xl shadow-lg flex items-center justify-center gap-2 text-base transition">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Confirm &amp; Collect Payment</span>
+                </button>
+            </div>
+
+            <!-- Receipt Success View -->
+            <div id="receiptSuccessView" class="hidden p-6 text-center space-y-4">
+                <div class="w-16 h-16 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto text-3xl">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+
+                <div>
+                    <h3 class="font-extrabold text-xl text-white">Payment Successful!</h3>
+                    <p id="receiptOrderNum" class="text-xs text-slate-400 mt-1">Order #POS-10042</p>
+                </div>
+
+                <div class="bg-slate-950 p-4 rounded-xl border border-slate-800 text-left text-xs space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Payment Method</span>
+                        <span id="receiptPaymentMethod" class="font-bold text-sky-400">CASH</span>
+                    </div>
+                    <div id="receiptRefRow" class="hidden justify-between">
+                        <span class="text-slate-400">Reference No.</span>
+                        <span id="receiptRefText" class="font-bold text-slate-300"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-slate-400">Amount Paid</span>
+                        <span id="receiptAmountPaid" class="font-extrabold text-emerald-400 text-sm">$0.00</span>
+                    </div>
+                    <div id="receiptChangeRow" class="hidden justify-between">
+                        <span class="text-slate-400">Change Returned</span>
+                        <span id="receiptChangeText" class="font-bold text-amber-400"></span>
+                    </div>
+                    <div class="flex justify-between border-t border-slate-800 pt-2">
+                        <span class="text-slate-400">Transaction Status</span>
+                        <span class="font-bold text-emerald-400">COMPLETED</span>
+                    </div>
+                </div>
+
+                <div class="flex gap-2">
+                    <button onclick="alert(&#39;Printing receipt...&#39;)" class="flex-1 bg-slate-800 hover:bg-slate-700 text-white font-bold py-2.5 rounded-xl border border-slate-700 flex items-center justify-center gap-2 text-xs">
+                        <i class="fa-solid fa-print"></i>
+                        Print Receipt
+                    </button>
+                    <button onclick="closeCheckoutModal()" class="flex-1 bg-sky-600 hover:bg-sky-500 text-white font-bold py-2.5 rounded-xl text-xs">
+                        New Order
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // ── THEME TOGGLE ─────────────────────────────────────────────────
+        function applyTheme(t) {
+            const html      = document.documentElement;
+            const icon      = document.getElementById('themeIcon');
+            const label     = document.getElementById('themeLabel');
+            const logoDark  = document.getElementById('logoDark');
+            const logoLight = document.getElementById('logoLight');
+            const logoWrap  = document.getElementById('logoWrap');
+
+            if (t === 'dark') {
+                html.classList.add('dark');
+                html.classList.remove('light');
+                if (icon)       { icon.className       = 'fa-solid fa-moon'; }
+                if (label)      { label.textContent    = 'Dark'; }
+                // Show dark logo on black bg
+                if (logoDark)   { logoDark.style.display  = 'block'; }
+                if (logoLight)  { logoLight.style.display = 'none'; }
+                if (logoWrap)   { logoWrap.style.background = '#000'; }
+            } else {
+                html.classList.remove('dark');
+                html.classList.add('light');
+                if (icon)       { icon.className       = 'fa-solid fa-sun'; }
+                if (label)      { label.textContent    = 'Light'; }
+                // Show light logo on white bg
+                if (logoDark)   { logoDark.style.display  = 'none'; }
+                if (logoLight)  { logoLight.style.display = 'block'; }
+                if (logoWrap)   { logoWrap.style.background = '#fff'; }
+            }
+            try { localStorage.setItem('zenora_theme', t); } catch(e) {}
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            applyTheme(isDark ? 'light' : 'dark');
+        }
+
+        // Init theme on page load
+        (function() {
+            const saved = localStorage.getItem('zenora_theme') || 'dark';
+            applyTheme(saved);
+        })();
+
+        // ── NAVIGATION LOGIC ─────────────────────────────────────────────
+        function switchView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.app-view').forEach(el => {
+                el.classList.add('hidden');
+                if (el.id === 'view-pos') {
+                    el.classList.remove('md:flex'); // Reset layout class for POS
+                }
+            });
+            // Show target view
+            const targetView = document.getElementById(`view-${viewId}`);
+            targetView.classList.remove('hidden');
+            if (viewId === 'pos') {
+                targetView.classList.add('flex', 'md:flex');
+            } else {
+                targetView.classList.add('flex');
+            }
+
+            // Update nav buttons
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            const activeBtn = document.getElementById(`nav-${viewId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('active');
+            }
+        }
+
+        // INITIAL PRODUCTS DATA
+        const INITIAL_PRODUCTS = [
+            {
+                id: '1',
+                name: 'Artisan Espresso',
+                sku: 'BEV-001',
+                barcode: '8901001001',
+                description: 'Double shot rich dark roast espresso.',
+                price: 3.50,
+                category: 'Beverages',
+                stock: 48,
+                imageUrl: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '2',
+                name: 'Iced Vanilla Oat Latte',
+                sku: 'BEV-002',
+                barcode: '8901001002',
+                description: 'Smooth cold espresso poured over oat milk and Madagascar vanilla.',
+                price: 5.25,
+                category: 'Beverages',
+                stock: 32,
+                imageUrl: 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '3',
+                name: 'Matcha Green Tea Latte',
+                sku: 'BEV-003',
+                barcode: '8901001003',
+                description: 'Ceremonial grade Uji matcha steamed with creamy milk.',
+                price: 5.75,
+                category: 'Beverages',
+                stock: 25,
+                imageUrl: 'https://images.unsplash.com/photo-1536256263959-770b48d82b0a?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '4',
+                name: 'Freshly Baked Croissant',
+                sku: 'BAK-001',
+                barcode: '8902002001',
+                description: 'Flaky french buttery croissant baked fresh every morning.',
+                price: 3.25,
+                category: 'Bakery',
+                stock: 18,
+                imageUrl: 'https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '5',
+                name: 'Avocado Toast & Sourdough',
+                sku: 'BAK-002',
+                barcode: '8902002002',
+                description: 'Toasted sourdough topped with crushed avocado and red pepper flakes.',
+                price: 8.50,
+                category: 'Bakery',
+                stock: 4,
+                imageUrl: 'https://images.unsplash.com/photo-1588137378633-dea1336ce1e2?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '6',
+                name: 'Chocolate Chip Cookie',
+                sku: 'BAK-003',
+                barcode: '8902002003',
+                description: 'Soft-baked gourmet cookie with Belgian dark chocolate chips.',
+                price: 2.75,
+                category: 'Bakery',
+                stock: 40,
+                imageUrl: 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '7',
+                name: 'Smoked Turkey & Swiss Sandwich',
+                sku: 'SNK-001',
+                barcode: '8903003001',
+                description: 'Sliced turkey breast, aged swiss cheese, and honey mustard blend.',
+                price: 9.75,
+                category: 'Snacks',
+                stock: 15,
+                imageUrl: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '8',
+                name: 'Organic Honey Granola Bowl',
+                sku: 'SNK-002',
+                barcode: '8903003002',
+                description: 'Greek yogurt topped with toasted oats, chia seeds, and berries.',
+                price: 6.95,
+                category: 'Snacks',
+                stock: 20,
+                imageUrl: 'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '9',
+                name: 'Fresh Crisp Fuji Apple',
+                sku: 'PRD-001',
+                barcode: '8904004001',
+                description: 'Sweet and crispy farm-fresh organic Fuji apple.',
+                price: 1.50,
+                category: 'Produce',
+                stock: 60,
+                imageUrl: 'https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=600&q=80',
+            },
+            {
+                id: '10',
+                name: 'Organic Whole Milk 1L',
+                sku: 'DRY-001',
+                barcode: '8905005001',
+                description: 'Pasteurized 100% pure organic whole milk carton.',
+                price: 4.10,
+                category: 'Dairy',
+                stock: 30,
+                imageUrl: 'https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80',
+            },
+        ];
+
+        // STATE VARIABLES
+        let products = JSON.parse(localStorage.getItem('pos_products')) || INITIAL_PRODUCTS;
+        let cart = [];
+        let selectedCategory = 'All';
+        let searchQuery = '';
+        let discountRate = 0;
+        let selectedPaymentMethod = 'CASH';
+        let metrics = JSON.parse(localStorage.getItem('pos_metrics')) || {
+            totalSalesToday: 142.50,
+            totalOrdersCount: 18,
+            totalItemsSoldToday: 42,
+        };
+
+        // CATEGORY ICONS MAP
+        const CATEGORY_ICONS = {
+            All: 'fa-border-all',
+            Beverages: 'fa-mug-hot',
+            Bakery: 'fa-cookie',
+            Snacks: 'fa-utensils',
+            Produce: 'fa-apple-whole',
+            Dairy: 'fa-cow',
+        };
+
+        // INITIALIZE APP
+        window.addEventListener('DOMContentLoaded', () => {
+            startLiveClock();
+            renderCategories();
+            renderProducts();
+            renderCart();
+            updateMetricsDisplay();
+        });
+
+        // REAL-TIME CLOCK
+        function startLiveClock() {
+            const clockEl = document.getElementById('liveClock');
+            function update() {
+                const now = new Date();
+                clockEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' | ' + now.toLocaleDateString([], { month: 'short', day: 'numeric' });
+            }
+            update();
+            setInterval(update, 1000);
+        }
+
+        // RENDER CATEGORY PILLS
+        function renderCategories() {
+            const categories = ['All', 'Beverages', 'Bakery', 'Snacks', 'Produce', 'Dairy'];
+            const container = document.getElementById('categoryContainer');
+            container.innerHTML = categories.map(cat => {
+                const isSelected = selectedCategory === cat;
+                const iconClass = CATEGORY_ICONS[cat] || 'fa-tag';
+                return `
+          <button 
+            onclick="selectCategory('${cat}')" 
+            class="flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap border ${isSelected
+                        ? 'bg-sky-600 text-white border-sky-500 shadow-md shadow-sky-600/20'
+                        : 'bg-slate-800 text-slate-300 border-slate-700/80 hover:bg-slate-700'
+                    }"
+          >
+            <i class="fa-solid ${iconClass}"></i>
+            <span>${cat}</span>
+          </button>
+        `;
+            }).join('');
+        }
+
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            renderCategories();
+            renderProducts();
+        }
+
+        // SEARCH FILTER LOGIC (Requirement #2)
+        function handleSearchInput(val) {
+            searchQuery = val;
+            const clearBtn = document.getElementById('clearSearchBtn');
+            if (val.length > 0) {
+                clearBtn.classList.remove('hidden');
+                clearBtn.classList.add('flex');
+            } else {
+                clearBtn.classList.add('hidden');
+                clearBtn.classList.remove('flex');
+            }
+            renderProducts();
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            handleSearchInput('');
+        }
+
+        // RENDER PRODUCT CATALOG GRID
+        function renderProducts() {
+            const filtered = products.filter(p => {
+                const matchesCategory = selectedCategory === 'All' || p.category === selectedCategory;
+                const q = searchQuery.toLowerCase().trim();
+                const matchesSearch = !q ||
+                    p.name.toLowerCase().includes(q) ||
+                    p.sku.toLowerCase().includes(q) ||
+                    (p.barcode && p.barcode.toLowerCase().includes(q));
+                return matchesCategory && matchesSearch;
+            });
+
+            document.getElementById('productCountBadge').textContent = `${filtered.length} ${filtered.length === 1 ? 'Product' : 'Products'}`;
+
+            const grid = document.getElementById('productGrid');
+            const noProdMsg = document.getElementById('noProductsMessage');
+
+            if (filtered.length === 0) {
+                grid.innerHTML = '';
+                noProdMsg.classList.remove('hidden');
+                noProdMsg.classList.add('flex');
+                return;
+            }
+
+            noProdMsg.classList.add('hidden');
+            noProdMsg.classList.remove('flex');
+
+            grid.innerHTML = filtered.map(product => {
+                const cartItem = cart.find(item => item.id === product.id);
+                const cartQty = cartItem ? cartItem.quantity : 0;
+                const isOutOfStock = product.stock <= 0;
+                const isLowStock = product.stock > 0 && product.stock <= 5;
+
+                return `
+          <div class="product-card bg-slate-800/90 border ${cartQty > 0 ? 'border-sky-500 ring-1 ring-sky-500' : 'border-slate-700/80'} rounded-2xl overflow-hidden flex flex-col justify-between relative ${isOutOfStock ? 'opacity-50 pointer-events-none' : ''}">
+            
+            <!-- Image Container -->
+            <div class="h-28 w-full bg-slate-900 relative overflow-hidden">
+              <img src="${product.imageUrl}" alt="${product.name}" class="w-full h-full object-cover" />
+              <span class="absolute top-2 left-2 bg-slate-950/80 backdrop-blur-sm text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded-md border border-slate-700">
+                ${product.sku}
+              </span>
+              ${cartQty > 0 ? `
+                <span class="absolute top-2 right-2 bg-sky-600 text-white text-xs font-extrabold w-6 h-6 rounded-full flex items-center justify-center shadow-lg">
+                  ${cartQty}
+                </span>
+              ` : ''}
+            </div>
+
+            <!-- Content -->
+            <div class="p-3 flex-1 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between gap-1">
+                  <span class="text-[10px] font-bold uppercase text-sky-400 tracking-wider">${product.category}</span>
+                  ${isLowStock ? `
+                    <span class="text-[10px] font-semibold text-amber-400 flex items-center gap-1">
+                      <i class="fa-solid fa-triangle-exclamation"></i> Low (${product.stock})
+                    </span>
+                  ` : ''}
+                </div>
+                <h4 class="font-bold text-white text-xs mt-1 line-clamp-2">${product.name}</h4>
+              </div>
+
+              <!-- Price & Add Button (Requirement #3) -->
+              <div class="flex items-center justify-between mt-3 pt-2 border-t border-slate-700/50">
+                <span class="font-extrabold text-emerald-400 text-base">$${Number(product.price).toFixed(2)}</span>
+                <button 
+                  onclick="addToCart('${product.id}')"
+                  class="bg-sky-600 hover:bg-sky-500 active:scale-95 text-white text-xs font-bold px-3 py-1.5 rounded-lg flex items-center gap-1.5 shadow-md shadow-sky-600/30 transition"
+                >
+                  <i class="fa-solid ${cartQty > 0 ? 'fa-check' : 'fa-plus'}"></i>
+                  <span>${cartQty > 0 ? 'Added' : 'Add'}</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+            }).join('');
+        }
+
+        // REQUIREMENT #3: ADD PRODUCTS TO CART
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product || product.stock <= 0) return;
+
+            const existingIndex = cart.findIndex(item => item.id === productId);
+            if (existingIndex > -1) {
+                cart[existingIndex].quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: Number(product.price),
+                    imageUrl: product.imageUrl,
+                    quantity: 1,
+                });
+            }
+
+            renderProducts();
+            renderCart();
+        }
+
+        // REQUIREMENT #4: REMOVE PRODUCT FROM CART & QUANTITY MODIFIERS
+        function updateCartQuantity(productId, delta) {
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex === -1) return;
+
+            cart[itemIndex].quantity += delta;
+            if (cart[itemIndex].quantity <= 0) {
+                cart.splice(itemIndex, 1);
+            }
+
+            renderProducts();
+            renderCart();
+        }
+
+        function removeProductFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            renderProducts();
+            renderCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            discountRate = 0;
+            setDiscount(0);
+            renderProducts();
+            renderCart();
+        }
+
+        // RENDER CART DRAWER & CALCULATE TOTALS
+        function renderCart() {
+            const container = document.getElementById('cartItemsContainer');
+            const emptyView = document.getElementById('emptyCartView');
+            const clearBtn = document.getElementById('clearCartBtn');
+            const checkoutBtn = document.getElementById('checkoutBtn');
+            const cartCountText = document.getElementById('cartItemsCountText');
+
+            const totalItemsCount = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartCountText.textContent = `${totalItemsCount} ${totalItemsCount === 1 ? 'item' : 'items'} in cart`;
+
+            const holdBtn = document.getElementById('holdCartBtn');
+
+            if (cart.length === 0) {
+                container.innerHTML = '';
+                emptyView.classList.remove('hidden');
+                emptyView.classList.add('flex');
+                clearBtn.classList.add('hidden');
+                clearBtn.classList.remove('flex');
+                if (holdBtn) { holdBtn.classList.add('hidden'); holdBtn.classList.remove('flex'); }
+                checkoutBtn.disabled = true;
+
+                updateSummaryDisplay(0, 0, 0, 0);
+                return;
+            }
+
+            emptyView.classList.add('hidden');
+            emptyView.classList.remove('flex');
+            clearBtn.classList.remove('hidden');
+            clearBtn.classList.add('flex');
+            if (holdBtn) { holdBtn.classList.remove('hidden'); holdBtn.classList.add('flex'); }
+            checkoutBtn.disabled = false;
+
+            // Render Line Items
+            container.innerHTML = cart.map(item => {
+                const itemSubtotal = item.price * item.quantity;
+                return `
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 flex items-center justify-between gap-2">
+            <img src="${item.imageUrl}" alt="${item.name}" class="w-10 h-10 rounded-lg object-cover bg-slate-800" />
+            
+            <div class="flex-1 min-w-0">
+              <h5 class="font-bold text-white text-xs truncate">${item.name}</h5>
+              <p class="text-[11px] text-slate-400 mt-0.5">$${item.price.toFixed(2)} x ${item.quantity}</p>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center bg-slate-900 rounded-lg border border-slate-800">
+              <button onclick="updateCartQuantity('${item.id}', -1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-minus"></i>
+              </button>
+              <span class="px-2 text-xs font-bold text-white">${item.quantity}</span>
+              <button onclick="updateCartQuantity('${item.id}', 1)" class="px-2 py-1 text-slate-300 hover:text-white text-xs">
+                <i class="fa-solid fa-plus"></i>
+              </button>
+            </div>
+
+            <!-- Subtotal -->
+            <span class="font-extrabold text-emerald-400 text-xs w-14 text-right">$${itemSubtotal.toFixed(2)}</span>
+
+            <!-- EXPLICIT REMOVE PRODUCT BUTTON (Requirement #4) -->
+            <button 
+              onclick="removeProductFromCart('${item.id}')"
+              title="Remove Product"
+              class="bg-red-500/10 hover:bg-red-500/20 text-red-400 p-2 rounded-lg border border-red-500/30 transition"
+            >
+              <i class="fa-regular fa-trash-can text-xs"></i>
+            </button>
+          </div>
+        `;
+            }).join('');
+
+            // Calculations
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = (subtotal * discountRate) / 100;
+            const taxable = Math.max(0, subtotal - discountAmount);
+            const tax = taxable * 0.08; // 8% sales tax
+            const total = taxable + tax;
+
+            updateSummaryDisplay(subtotal, discountAmount, tax, total);
+        }
+
+        function setDiscount(rate) {
+            discountRate = rate;
+            document.querySelectorAll('.disc-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'border-sky-500');
+                btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+            });
+            const activeBtn = document.getElementById(`disc-${rate}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+                activeBtn.classList.add('bg-sky-600', 'text-white', 'border-sky-500');
+            }
+
+            document.getElementById('discountBadgeText').textContent = `${rate}%`;
+            renderCart();
+        }
+
+        function updateSummaryDisplay(subtotal, discountAmount, tax, total) {
+            document.getElementById('summarySubtotal').textContent = `$${subtotal.toFixed(2)}`;
+
+            const discRow = document.getElementById('discountRow');
+            if (discountAmount > 0) {
+                discRow.classList.remove('hidden');
+                discRow.classList.add('flex');
+                document.getElementById('summaryDiscountRate').textContent = discountRate;
+                document.getElementById('summaryDiscountAmount').textContent = `-$${discountAmount.toFixed(2)}`;
+            } else {
+                discRow.classList.add('hidden');
+                discRow.classList.remove('flex');
+            }
+
+            document.getElementById('summaryTax').textContent = `$${tax.toFixed(2)}`;
+            document.getElementById('summaryTotal').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('checkoutBtn').querySelector('span').textContent = `Pay $${total.toFixed(2)}`;
+        }
+
+        // CHECKOUT MODAL LOGIC
+        function openCheckoutModal() {
+            if (cart.length === 0) return;
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = (subtotal * discountRate) / 100;
+            const taxable = Math.max(0, subtotal - discountAmount);
+            const tax = taxable * 0.08;
+            const total = taxable + tax;
+
+            document.getElementById('modalItemsCount').textContent = cart.reduce((a, b) => a + b.quantity, 0);
+            document.getElementById('modalSubtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('modalAdjustments').textContent = discountAmount > 0 ? `Tax: $${tax.toFixed(2)} | Disc: -$${discountAmount.toFixed(2)}` : `Tax: $${tax.toFixed(2)}`;
+            document.getElementById('modalTotal').textContent = `$${total.toFixed(2)}`;
+
+            document.getElementById('paymentSelectionView').classList.remove('hidden');
+            document.getElementById('receiptSuccessView').classList.add('hidden');
+            document.getElementById('modalTitle').textContent = 'Complete POS Transaction';
+
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function calculateChange() {
+            if (selectedPaymentMethod !== 'CASH') return;
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = (subtotal * discountRate) / 100;
+            const total = Math.max(0, subtotal - discountAmount) * 1.08;
+            
+            const received = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
+            const change = Math.max(0, received - total);
+            document.getElementById('cashChangeDue').textContent = `$${change.toFixed(2)}`;
+        }
+
+        function selectPaymentMethod(method) {
+            selectedPaymentMethod = method;
+            document.querySelectorAll('.pay-method-btn').forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'border-sky-500');
+                btn.classList.add('bg-slate-800', 'text-slate-300', 'border-slate-700');
+            });
+            const activeBtn = document.getElementById(`pay-${method}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-800', 'text-slate-300', 'border-slate-700');
+                activeBtn.classList.add('bg-sky-600', 'text-white', 'border-sky-500');
+            }
+            
+            // Toggle visibility of dynamic fields
+            const cashFields = document.getElementById('cashFields');
+            const referenceFields = document.getElementById('referenceFields');
+            if (method === 'CASH') {
+                cashFields.classList.remove('hidden');
+                referenceFields.classList.add('hidden');
+                calculateChange();
+            } else {
+                cashFields.classList.add('hidden');
+                referenceFields.classList.remove('hidden');
+            }
+        }
+
+        function processFinalPayment() {
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const discountAmount = (subtotal * discountRate) / 100;
+            const total = Math.max(0, subtotal - discountAmount) * 1.08;
+
+            // Update Stock Levels
+            cart.forEach(cartItem => {
+                const p = products.find(prod => prod.id === cartItem.id);
+                if (p) {
+                    p.stock = Math.max(0, p.stock - cartItem.quantity);
+                }
+            });
+
+            // Update Metrics
+            metrics.totalSalesToday += total;
+            metrics.totalOrdersCount += 1;
+            metrics.totalItemsSoldToday += cart.reduce((a, b) => a + b.quantity, 0);
+
+            localStorage.setItem('pos_products', JSON.stringify(products));
+            localStorage.setItem('pos_metrics', JSON.stringify(metrics));
+
+            // Show Receipt Success Screen
+            document.getElementById('receiptOrderNum').textContent = `Order #POS-${Math.floor(10000 + Math.random() * 90000)}`;
+            document.getElementById('receiptPaymentMethod').textContent = selectedPaymentMethod;
+            document.getElementById('receiptAmountPaid').textContent = `$${total.toFixed(2)}`;
+
+            const refRow = document.getElementById('receiptRefRow');
+            const changeRow = document.getElementById('receiptChangeRow');
+            
+            if (selectedPaymentMethod === 'CASH') {
+                const received = parseFloat(document.getElementById('cashReceivedInput').value) || 0;
+                const change = Math.max(0, received - total);
+                
+                refRow.classList.add('hidden');
+                refRow.classList.remove('flex');
+                
+                changeRow.classList.remove('hidden');
+                changeRow.classList.add('flex');
+                document.getElementById('receiptChangeText').textContent = `$${change.toFixed(2)}`;
+            } else {
+                const ref = document.getElementById('paymentReferenceInput').value.trim() || 'N/A';
+                
+                changeRow.classList.add('hidden');
+                changeRow.classList.remove('flex');
+                
+                refRow.classList.remove('hidden');
+                refRow.classList.add('flex');
+                document.getElementById('receiptRefText').textContent = ref;
+            }
+
+            // Reset checkout fields
+            document.getElementById('cashReceivedInput').value = '';
+            document.getElementById('paymentReferenceInput').value = '';
+            document.getElementById('cashChangeDue').textContent = '$0.00';
+
+            document.getElementById('paymentSelectionView').classList.add('hidden');
+            document.getElementById('receiptSuccessView').classList.remove('hidden');
+            document.getElementById('modalTitle').textContent = 'Receipt Summary';
+
+            updateMetricsDisplay();
+            clearCart();
+        }
+
+        function updateMetricsDisplay() {
+            document.getElementById('metricSales').textContent = `$${metrics.totalSalesToday.toFixed(2)}`;
+            document.getElementById('metricOrders').textContent = metrics.totalOrdersCount;
+            document.getElementById('metricItems').textContent = metrics.totalItemsSoldToday;
+
+            const lowStockCount = products.filter(p => p.stock > 0 && p.stock <= 5).length;
+            document.getElementById('metricLowStock').textContent = `${lowStockCount} ${lowStockCount === 1 ? 'item' : 'items'}`;
+        }
+
+        function resetApplicationData() {
+            if (confirm('Reset catalog and sales metrics to original demo data?')) {
+                localStorage.removeItem('pos_products');
+                localStorage.removeItem('pos_metrics');
+                products = [...INITIAL_PRODUCTS];
+                metrics = {
+                    totalSalesToday: 142.50,
+                    totalOrdersCount: 18,
+                    totalItemsSoldToday: 42,
+                };
+                clearCart();
+                updateMetricsDisplay();
+                renderProducts();
+            }
+        }
+    </script>
+
+
+</body></html>
